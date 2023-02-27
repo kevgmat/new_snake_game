@@ -9,7 +9,13 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    pygame.draw.lines(display, pygame.Color((255,0,0)), True,  [(300,400),(400,300),(200,300)], width = 1)
+    for i in range(1, 32):
+        pygame.draw.line(display, pygame.Color((255, 0, 0)), (0,(i*20)),(620,(i*20)), width = 1)
+        pygame.draw.line(display, pygame.Color((255, 0, 0)), ((i*20),0),((i*20),620), width = 1)
+
+        pygame.draw.line(display, pygame.Color((0, 255, 0)), (0, ((i+31) * 20)), (620, ((i+31) * 20)), width=1)
+        pygame.draw.line(display, pygame.Color((0, 255, 0)), ((i*20),620),((i*20),720), width = 1)
+
     pygame.display.update()
 pygame.quit()
 sys.exit()
