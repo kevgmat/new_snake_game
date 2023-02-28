@@ -25,6 +25,24 @@ def enter_game():
         else:
             food_pos.append((food_x, food_y))
             i += 1
+
+    i = 1
+    turn_locations = []
+    turn_location_right = random.randint(1, 31)
+    turn_location_left = 0
+    turn_locations.append(turn_location_right)
+    print("started")
+    while i <= 15:
+        print(i)
+        turn_location_left = random.randint(1, turn_location_right)
+        turn_locations.append(turn_location_left)
+        turn_location_right = random.randint(turn_location_left, 31)
+        turn_locations.append(turn_location_right)
+        i+=1
+    print(turn_locations)
+    print(len(turn_locations))
+
+
     def snake(snake_block_function, snake_list_function):
         for site in snake_list_function:
             pygame.draw.rect(display, pygame.Color((255,255,255)),
@@ -63,7 +81,8 @@ def enter_game():
                     game_over[0]= True
 
             x+=10
-            pygame.time.delay(50)
+            pygame.time.Clock().tick(snake_speed)
+            # pygame.time.delay(50)
             # y+=10
             snake_head = [x,y]
             snake_list.append(snake_head)
