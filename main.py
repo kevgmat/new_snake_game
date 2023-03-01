@@ -19,8 +19,10 @@ def enter_game():
     i = 1
     percentage = 10
     while i <= int((percentage / 100) * 961):
-        food_x = random.randint(1, 31)
-        food_y = random.randint(1, 31)
+        food_x = random.randint(0, 30)
+        food_y = random.randint(0, 30)
+        food_pos.append((food_x,food_y))
+        i+=1
         if (food_x, food_y) in food_pos:
             pass
         else:
@@ -61,7 +63,7 @@ def enter_game():
 
     def food_display():
         for i in food_pos:
-            pygame.draw.rect(display, pygame.Color((0, 0, 255)), [((i[0] - 1) * 20), ((i[1] - 1) * 20), 20, 20])
+            pygame.draw.rect(display, pygame.Color((0, 0, 255)), [((i[0]) * 20), ((i[1]) * 20), 20, 20])
 
     def game():
 
@@ -86,6 +88,7 @@ def enter_game():
                             if x == turn_locations[i]*20:
                                 y+=20
                                 flag[0] = True
+                                # length_of_snake += 1
                             else:
                                 x+=20
                             if y>600:
@@ -110,6 +113,7 @@ def enter_game():
                             if x == turn_locations[i]*20:
                                 y+=20
                                 flag[1] = True
+                                # length_of_snake+=1
                             else:
                                 x-=20
                             if y > 600: break
