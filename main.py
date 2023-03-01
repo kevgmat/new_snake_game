@@ -76,6 +76,7 @@ def enter_game():
 
         x = [-20]
         y = [0]
+        carriage_x = [15]
         while not game_over[0]:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -117,8 +118,12 @@ def enter_game():
 
                         if pygame.key.get_pressed()[pygame.K_LEFT]:
                             print("left")
+                            carriage_x[0] = carriage_x[0]-1
+                            # carriage(carriage_x[0]-1)
                         elif pygame.key.get_pressed()[pygame.K_RIGHT]:
                             print("right")
+                            carriage_x[0] = carriage_x[0]+ 1
+                            # carriage(carriage_x[0]+1)
                         elif pygame.key.get_pressed()[pygame.K_SPACE]:
                             print("shoot")
                         # print(pygame.key.get_pressed()[pygame.K_LEFT])
@@ -134,7 +139,8 @@ def enter_game():
                         #         print("right")
                         #     elif event.key == pygame.K_SPACE or event.key == pygame.UP:
                         #         print("shoot")
-                        carriage(30)
+                        # carriage(30)
+                        carriage(carriage_x[0])
 
                         pygame.display.update()
 
