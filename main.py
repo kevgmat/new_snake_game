@@ -88,7 +88,7 @@ def enter_game():
                         turning_right[0] = True
                     else:
                         turning_right[0] = False
-                    print(turning_right)
+                    # print(turning_right)
 
                     def motion(turning_right):
 
@@ -113,6 +113,27 @@ def enter_game():
                         background()
                         food_display()
                         snake(snake_block, snake_list)
+
+
+                        if pygame.key.get_pressed()[pygame.K_LEFT]:
+                            print("left")
+                        elif pygame.key.get_pressed()[pygame.K_RIGHT]:
+                            print("right")
+                        elif pygame.key.get_pressed()[pygame.K_SPACE]:
+                            print("shoot")
+                        # print(pygame.key.get_pressed()[pygame.K_LEFT])
+                        # for event in pygame.event.get():
+                        #     if event.type == pygame.KEYDOWN:
+                        #         if event.key == pygame.K_a:
+                        #             print("left")
+                        # for event in pygame.event.get():
+                        #
+                        #     if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                        #         print("left")
+                        #     elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                        #         print("right")
+                        #     elif event.key == pygame.K_SPACE or event.key == pygame.UP:
+                        #         print("shoot")
                         carriage(30)
 
                         pygame.display.update()
