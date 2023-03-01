@@ -17,15 +17,18 @@ def enter_game():
     y= 0
 
     i = 1
-    percentage = 10
+    percentage = 100
     while i <= int((percentage / 100) * 961):
         food_x = random.randint(0, 30)
         food_y = random.randint(0, 30)
-        food_pos.append((food_x,food_y))
-        i+=1
+        # food_pos.append((food_x,food_y))
+        # print()
+        # i+=1
         if (food_x, food_y) in food_pos:
             pass
+            print("hello")
         else:
+            print("hi")
             food_pos.append((food_x, food_y))
             i += 1
 
@@ -98,11 +101,22 @@ def enter_game():
                             if len(snake_list) > length_of_snake:
                                 del snake_list[0]
 
+
+
                             background()
                             food_display()
                             snake(snake_block, snake_list)
 
                             pygame.display.update()
+
+                            # for i in food_pos():
+                            #     print(i)
+                            for j in food_pos:
+                                print(j)
+                                if (x== (j[0]*20)) and (y == (j[1])*20):
+                                    # length_of_snake += 1
+                                    food_pos.remove(j)
+
                             if flag[0] == True:
                                 break
                     else:
@@ -127,6 +141,12 @@ def enter_game():
                             snake(snake_block, snake_list)
 
                             pygame.display.update()
+
+                            for j in food_pos:
+                                print(j)
+                                if (x== (j[0]*20)) and (y == (j[1]*20)):
+                                    # length_of_snake += 1
+                                    food_pos.remove(j)
                             if flag[1] == True:
                                 break
     game()
