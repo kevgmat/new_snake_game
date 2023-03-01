@@ -11,7 +11,8 @@ game_over = [False]
 def enter_game():
 
     snake_block = 20
-    snake_speed = 20
+    snake_speed = 50
+
     x=0
     y= 0
 
@@ -44,6 +45,7 @@ def enter_game():
 
 
     def snake(snake_block_function, snake_list_function):
+        print(snake_list_function)
         for site in snake_list_function:
             pygame.draw.rect(display, pygame.Color((255,255,255)),
                              [site[0],site[1], snake_block_function, snake_block_function],
@@ -74,27 +76,56 @@ def enter_game():
 
         x = 0
         y = 0
-
         while not game_over[0]:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_over[0]= True
+            while y< 620:
 
-            x+=10
-            pygame.time.Clock().tick(snake_speed)
-            # pygame.time.delay(50)
-            # y+=10
-            snake_head = [x,y]
-            snake_list.append(snake_head)
-            if len(snake_list)> length_of_snake:
-                del snake_list[0]
+                print(y)
+                for i in range(0,31):
 
-            background()
-            food_display()
-            snake(snake_block, snake_list)
+                    if i%2 == 0:
+                        while x<= (turn_locations[i]*20):
+                            # x+= 20
+                            pygame.time.Clock().tick(snake_speed)
 
-            pygame.display.update()
+                            snake_head = [x, y]
+                            snake_list.append(snake_head)
+                            if len(snake_list) > length_of_snake:
+                                del snake_list[0]
 
+                            background()
+                            food_display()
+                            snake(snake_block, snake_list)
+                            if x == turn_locations[i]*20:
+                                y+=20
+                                break
+                            else:
+                                x+=20
+                            pygame.display.update()
+                        # y+=20
+                    else:
+                        while x>= (turn_locations[i]*20):
+                            # x-=20
+                            pygame.time.Clock().tick(snake_speed)
+
+                            snake_head = [x, y]
+                            snake_list.append(snake_head)
+                            if len(snake_list) > length_of_snake:
+                                del snake_list[0]
+
+                            background()
+                            food_display()
+                            snake(snake_block, snake_list)
+                            if x == turn_locations[i]*20:
+                                y+=20
+                                break
+                            else:
+                                x-=20
+
+                            pygame.display.update()
+                        # y+=20
     game()
 enter_game()
 pygame.quit()
