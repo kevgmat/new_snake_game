@@ -14,7 +14,7 @@ game_over = [False]
 
 def enter_game():
     snake_block = 20
-    snake_speed = 100
+    snake_speed = 10
     bullet_state =[False]
 
     i = 1
@@ -140,13 +140,25 @@ def enter_game():
                     pygame.time.Clock().tick(500)
                     if bullet_y < 0:
                         bullet_y = 32
+
+                    # for i in range(0,len(snake_list)):
+                    #     print(snake_list)
+                    #     if carriage_x[0]*20 == snake_list[i][0] and bullet_y*20 == snake_list[i][1]:
+                    #         print("hit", snake_list[i])
+                    #         bullet_y = 32
+                    #         del snake_list[:i]
+
                     for i in snake_list:
                         if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
                             print("hit", i[0], i[1])
-                    # if bullet_y*20 == x[0]:
+                            bullet_y = 32
+                            del snake_list[:(snake_list.index(i)+1)]
+                            print(food_pos)
+                    # # if bullet_y*20 == x[0]:
                     #     print("hit")
                 else:
                     pygame.display.update()
+                    # print(snake_list)
 
 
         T_2 = Thread(target=bullet, args = (snake_list, ))
