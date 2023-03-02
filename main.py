@@ -111,6 +111,11 @@ def enter_game():
                 for food_item in food_pos:
                     pygame.draw.rect(display, pygame.Color((0, 0, 255)),
                                      [((food_item[0]) * 20), ((food_item[1]) * 20), 20, 20])
+                if carriage_x[0] >30:
+                    carriage_x[0] -= 30
+                elif carriage_x[0] <0:
+                    carriage_x[0] += 30
+
                 carriage_drawing(carriage_x[0])
 
                 snake(snake_block, snake_list)
