@@ -1,6 +1,11 @@
+import time
+
 import pygame
 import sys
 import random
+from threading import *
+
+# import multiprocessing
 
 pygame.init()
 display = pygame.display.set_mode((620, 720))
@@ -13,7 +18,7 @@ game_over = [False]
 
 def enter_game():
     snake_block = 20
-    snake_speed = 100
+    snake_speed = 10
 
     i = 1
     percentage = 10
@@ -33,6 +38,9 @@ def enter_game():
     turn_location_right = random.randint(1, 30)
     turn_location_left = 0
     turn_locations.append(turn_location_right)
+
+    carriage_x = [15]
+
     while i <= 15:
         turn_location_left = random.randint(0, turn_location_right)
         turn_locations.append(turn_location_left)
@@ -56,17 +64,56 @@ def enter_game():
             pygame.draw.line(display, pygame.Color((255, 0, 0)), (0, (i * 20)), (620, (i * 20)), width=1)
             pygame.draw.line(display, pygame.Color((255, 0, 0)), ((i * 20), 0), ((i * 20), 620), width=1)
 
-            pygame.draw.line(display, pygame.Color((0, 255, 0)), (0, ((i + 31) * 20)), (620, ((i + 31) * 20)), width=1)
-            pygame.draw.line(display, pygame.Color((0, 255, 0)), ((i * 20), 620), ((i * 20), 720), width=1)
+            # pygame.draw.line(display, pygame.Color((0, 255, 0)), (0, ((i + 31) * 20)), (620, ((i + 31) * 20)), width=1)
+            # pygame.draw.line(display, pygame.Color((0, 255, 0)), ((i * 20), 620), ((i * 20), 720), width=1)
 
     def food_display():
         for food_item in food_pos:
             pygame.draw.rect(display, pygame.Color((0, 0, 255)), [((food_item[0]) * 20), ((food_item[1]) * 20), 20, 20])
 
-    def carriage(carriage_pos):
+    def carriage_drawing(carriage_pos):
         pygame.draw.rect(display, pygame.Color((255, 0, 0)), ((carriage_pos*20-20), 660, 60, 20))
         pygame.draw.rect(display, pygame.Color((255, 0, 0)), ((carriage_pos*20), 640, 20, 20))
 
+    def carriage():
+        while True:
+            # print("hi")
+            if pygame.key.get_pressed()[pygame.K_LEFT]:
+                # print("left")
+                carriage_x[0] = carriage_x[0] - 1
+                # carriage(carriage_x[0]-1)
+            elif pygame.key.get_pressed()[pygame.K_RIGHT]:
+                # print("right")
+                carriage_x[0] = carriage_x[0] + 1
+                # carriage(carriage_x[0]+1)
+            elif pygame.key.get_pressed()[pygame.K_SPACE]:
+                print("shoot")
+            pygame.time.Clock().tick(50)
+
+            pygame.draw.rect(display, pygame.Color((0, 0, 0)), [0, 620, 620, 100])
+            for i in range(1, 32):
+                # pygame.draw.line(display, pygame.Color((255, 0, 0)), (0, (i * 20)), (620, (i * 20)), width=1)
+                # pygame.draw.line(display, pygame.Color((255, 0, 0)), ((i * 20), 0), ((i * 20), 620), width=1)
+
+                pygame.draw.line(display, pygame.Color((0, 255, 0)), (0, ((i + 31) * 20)), (620, ((i + 31) * 20)),
+                                 width=1)
+                pygame.draw.line(display, pygame.Color((0, 255, 0)), ((i * 20), 620), ((i * 20), 720), width=1)
+
+            # background()
+            for food_item in food_pos:
+                pygame.draw.rect(display, pygame.Color((0, 0, 255)),
+                                 [((food_item[0]) * 20), ((food_item[1]) * 20), 20, 20])
+            carriage_drawing(carriage_x[0])
+
+            pygame.display.update()
+            # print(carriage_x[0])
+            # for i in range(1,100):
+            #     time.sleep(0.5)
+            #     print(i)
+
+    T = Thread(target = carriage)
+    T.setDaemon((True))
+    T.start()
     def game():
 
         game_over[0] = False
@@ -77,12 +124,19 @@ def enter_game():
         x = [-20]
         y = [0]
         carriage_x = [15]
+        # process_1 = multiprocessing.Process(target=carriage(), args=(carriage_x[0],))
+        # process_1.start()
+
         while not game_over[0]:
+            # clock.tick(snake_speed)
+            # pygame.time.Clock().tick(snake_speed)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_over[0] = True
             while y[0] < 600:
+
                 for i in range(0, 31):
+
                     flag = [False, False]
 
                     if i%2 == 0:
@@ -114,35 +168,27 @@ def enter_game():
                         background()
                         food_display()
                         snake(snake_block, snake_list)
-
-
-                        if pygame.key.get_pressed()[pygame.K_LEFT]:
-                            print("left")
-                            carriage_x[0] = carriage_x[0]-1
-                            # carriage(carriage_x[0]-1)
-                        elif pygame.key.get_pressed()[pygame.K_RIGHT]:
-                            print("right")
-                            carriage_x[0] = carriage_x[0]+ 1
-                            # carriage(carriage_x[0]+1)
-                        elif pygame.key.get_pressed()[pygame.K_SPACE]:
-                            print("shoot")
-                        # print(pygame.key.get_pressed()[pygame.K_LEFT])
-                        # for event in pygame.event.get():
-                        #     if event.type == pygame.KEYDOWN:
-                        #         if event.key == pygame.K_a:
-                        #             print("left")
-                        # for event in pygame.event.get():
+                        # print(len(food_pos))
+                        # pygame.display.update()
+                        # print(carriage_x[0])
+                        # carriage_drawing(carriage_x[0])
+                        # carriage()
+                        # process_1 = multiprocessing.Process(target=carriage(), args=(carriage_x[0], ))
+                        # process_1.start()
+                        # if pygame.key.get_pressed()[pygame.K_LEFT]:
+                        #     print("left")
+                        #     carriage_x[0] = carriage_x[0]-1
+                        #     # carriage(carriage_x[0]-1)
+                        # elif pygame.key.get_pressed()[pygame.K_RIGHT]:
+                        #     print("right")
+                        #     carriage_x[0] = carriage_x[0]+ 1
+                        #     # carriage(carriage_x[0]+1)
+                        # elif pygame.key.get_pressed()[pygame.K_SPACE]:
+                        #     print("shoot")
                         #
-                        #     if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                        #         print("left")
-                        #     elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                        #         print("right")
-                        #     elif event.key == pygame.K_SPACE or event.key == pygame.UP:
-                        #         print("shoot")
-                        # carriage(30)
-                        carriage(carriage_x[0])
-
-                        pygame.display.update()
+                        # carriage_drawing(carriage_x[0])
+                        #
+                        # pygame.display.update()
 
                         for j in food_pos:
                             # print(j)
@@ -164,6 +210,8 @@ def enter_game():
                             ref = motion(False)
                             if ref == 0:
                                 break
+
+        # clock.tick(snake_speed)
 
     game()
 
