@@ -20,8 +20,8 @@ def enter_game():
     i = 1
     percentage = 10
     while i <= int((percentage / 100) * 961):
-        food_x = random.randint(0, 30)
-        food_y = random.randint(0, 30)
+        food_x = random.randint(0, 30)*20
+        food_y = random.randint(0, 30)*20
 
         if (food_x, food_y) in food_pos:
             pass
@@ -66,7 +66,7 @@ def enter_game():
 
     def food_display():
         for food_item in food_pos:
-            pygame.draw.rect(display, pygame.Color((0, 0, 255)), [((food_item[0]) * 20), ((food_item[1]) * 20), 20, 20])
+            pygame.draw.rect(display, pygame.Color((0, 0, 255)), [((food_item[0])), ((food_item[1])), 20, 20])
 
     def carriage_drawing(carriage_pos):
         pygame.draw.rect(display, pygame.Color((255, 0, 0)), ((carriage_pos*20-20), 660, 60, 20))
@@ -110,7 +110,7 @@ def enter_game():
 
                 for food_item in food_pos:
                     pygame.draw.rect(display, pygame.Color((0, 0, 255)),
-                                     [((food_item[0]) * 20), ((food_item[1]) * 20), 20, 20])
+                                     [((food_item[0])), ((food_item[1])), 20, 20])
                 if carriage_x[0] >30:
                     carriage_x[0] -= 30
                 elif carriage_x[0] <0:
@@ -152,8 +152,16 @@ def enter_game():
                         if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
                             print("hit", i[0], i[1])
                             bullet_y = 32
-                            del snake_list[:(snake_list.index(i)+1)]
+                            removed_part = snake_list[:(snake_list.index(i)+1)]
+                            del snake_list[:(snake_list.index(i) + 1)]
+                            length_of_snake[0] = len(snake_list)
+                            for i in removed_part:
+                                food_pos.append(i)
+                            # food_pos.append(removed_part)
+                            print(len(food_pos))
+                            # del snake_list[:(snake_list.index(i)+1)]
                             print(food_pos)
+
                     # # if bullet_y*20 == x[0]:
                     #     print("hit")
                 else:
@@ -206,7 +214,7 @@ def enter_game():
                         food_display()
 
                         for j in food_pos:
-                            if (x[0] == (j[0] * 20)) and (y[0] == (j[1]) * 20):
+                            if (x[0] == (j[0])) and (y[0] == (j[1])):
                                 length_of_snake[0] += 1
                                 food_pos.remove(j)
 
