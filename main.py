@@ -14,7 +14,7 @@ game_over = [False]
 
 def enter_game():
     snake_block = 20
-    snake_speed = 10
+    snake_speed = 100
     bullet_state =[False]
 
     i = 1
@@ -126,13 +126,13 @@ def enter_game():
         T.setDaemon((True))
         T.start()
 
-        def bullet():
+        def bullet(snake_list):
             bullet_y = 32
             i = 1
             while True:
 
                 if bullet_state[0] == True:
-                    print("shot")
+                    # print("shot")
                     pygame.draw.rect(display, pygame.Color((255, 0, 0)), [(carriage_x[0] * 20),
                                                                           (bullet_y * 20), 20, 20])
                     pygame.display.update()
@@ -140,11 +140,16 @@ def enter_game():
                     pygame.time.Clock().tick(500)
                     if bullet_y < 0:
                         bullet_y = 32
+                    for i in snake_list:
+                        if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
+                            print("hit", i[0], i[1])
+                    # if bullet_y*20 == x[0]:
+                    #     print("hit")
                 else:
                     pygame.display.update()
 
 
-        T_2 = Thread(target=bullet)
+        T_2 = Thread(target=bullet, args = (snake_list, ))
         T_2.setDaemon((True))
         T_2.start()
 
