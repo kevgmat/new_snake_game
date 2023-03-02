@@ -15,6 +15,7 @@ game_over = [False]
 def enter_game():
     snake_block = 20
     snake_speed = 10
+    bullet_state =[False]
 
     i = 1
     percentage = 10
@@ -88,9 +89,11 @@ def enter_game():
                     carriage_x[0] = carriage_x[0] - 1
                 elif pygame.key.get_pressed()[pygame.K_RIGHT]:
                     carriage_x[0] = carriage_x[0] + 1
-                elif pygame.key.get_pressed()[pygame.K_SPACE]:
-                    print("shoot")
-                    print(carriage_x)
+                if pygame.key.get_pressed()[pygame.K_SPACE]:
+                    pass
+                    bullet_state[0] = True
+                else:
+                    bullet_state[0] = False
 
 
                 pygame.time.Clock().tick(50)
@@ -111,12 +114,34 @@ def enter_game():
                 carriage_drawing(carriage_x[0])
 
                 snake(snake_block, snake_list)
-                pygame.display.update()
+                # pygame.display.update()
 
 
         T = Thread(target=carriage, args = (snake_list,snake_block, ))
         T.setDaemon((True))
         T.start()
+
+        def bullet():
+            bullet_y = 32
+            i = 1
+            while True:
+
+                if bullet_state[0] == True:
+                    print("shot")
+                    pygame.draw.rect(display, pygame.Color((255, 0, 0)), [(carriage_x[0] * 20),
+                                                                          (bullet_y * 20), 20, 20])
+                    pygame.display.update()
+                    bullet_y -= 1
+                    pygame.time.Clock().tick(500)
+                    if bullet_y < 0:
+                        bullet_y = 32
+                else:
+                    pygame.display.update()
+
+
+        T_2 = Thread(target=bullet)
+        T_2.setDaemon((True))
+        T_2.start()
 
 
         while not game_over[0]:
