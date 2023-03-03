@@ -9,6 +9,7 @@ display = pygame.display.set_mode((620, 720))
 background = pygame.Surface((620, 720))
 background.fill((0, 0, 0))
 food_pos = []
+# snake_list = []
 
 game_over = [False]
 
@@ -78,13 +79,15 @@ def enter_game():
         snake_list = []
         length_of_snake = [10]
         turning_right = [True]
+        # test=["kevin"]
 
         x = [-20]
         y = [0]
         carriage_x = [15]
 
-        def carriage(snake_list, snake_block):
+        def carriage(snake_block):
             while True:
+                # print("hi",snake_list)
                 if pygame.key.get_pressed()[pygame.K_LEFT]:
                     carriage_x[0] = carriage_x[0] - 1
                 elif pygame.key.get_pressed()[pygame.K_RIGHT]:
@@ -122,16 +125,21 @@ def enter_game():
                 # pygame.display.update()
 
 
-        T = Thread(target=carriage, args = (snake_list,snake_block, ))
+        T = Thread(target=carriage, args = (snake_block, ))
         T.setDaemon((True))
         T.start()
 
-        def bullet(snake_list):
+        def bullet():
+            print(snake_list)
+            # print(test)
+            # print(len(s))
             bullet_y = 32
             i = 1
+
             while True:
 
                 if bullet_state[0] == True:
+                    # print("hello",snake_list[0])
                     # print("shot")
                     pygame.draw.rect(display, pygame.Color((255, 0, 0)), [(carriage_x[0] * 20),
                                                                           (bullet_y * 20), 20, 20])
@@ -149,27 +157,38 @@ def enter_game():
                     #         del snake_list[:i]
 
                     for i in snake_list:
+                        snake_list
                         if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
-                            print("hit", i[0], i[1])
-                            bullet_y = 32
-                            removed_part = snake_list[:(snake_list.index(i)+1)]
-                            del snake_list[:(snake_list.index(i) + 1)]
-                            length_of_snake[0] = len(snake_list)
-                            for i in removed_part:
-                                food_pos.append(i)
-                            # food_pos.append(removed_part)
-                            print(len(food_pos))
-                            # del snake_list[:(snake_list.index(i)+1)]
-                            print(food_pos)
+                            if snake_list.index(i) == (len(snake_list)-1) :
+                                # snake_list = [(0,0)]
+                                print("hit", i[0], i[1])
+                                bullet_y = 32
+                                removed_part = snake_list[:(snake_list.index(i) + 1)]
+                                del snake_list[:(snake_list.index(i) + 1)]
+                                length_of_snake[0] = len(snake_list)
+                                for i in removed_part:
+                                    food_pos.append(i)
 
-                    # # if bullet_y*20 == x[0]:
-                    #     print("hit")
+                                x[0] = -20
+                                y[0] = 0
+                                length_of_snake[0] = 1
+                                bullet_state[0] = False
+                            else:
+                                print("hit", i[0], i[1])
+                                bullet_y = 32
+                                removed_part = snake_list[:(snake_list.index(i)+1)]
+                                del snake_list[:(snake_list.index(i) + 1)]
+                                length_of_snake[0] = len(snake_list)
+                                for i in removed_part:
+                                    food_pos.append(i)
+
                 else:
                     pygame.display.update()
                     # print(snake_list)
 
 
-        T_2 = Thread(target=bullet, args = (snake_list, ))
+
+        T_2 = Thread(target=bullet)
         T_2.setDaemon((True))
         T_2.start()
 
@@ -212,7 +231,7 @@ def enter_game():
 
                         background()
                         food_display()
-
+                        # print(snake_list)
                         for j in food_pos:
                             if (x[0] == (j[0])) and (y[0] == (j[1])):
                                 length_of_snake[0] += 1
