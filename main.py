@@ -1,43 +1,25 @@
+import time
 import pygame
 import sys
 import random
 from threading import *
-import time
 
 pygame.init()
 display = pygame.display.set_mode((620, 720))
 background = pygame.Surface((620, 720))
 background.fill((0, 0, 0))
 food_pos = []
+# snake_list = []
 
 game_over = [False]
-# time = [0]
-start_time =[0]
-end_time = [0]
-loop_counter=[0]
-
-# def timer():
-#
-#     while True:
-#
-#         # pygame.time.Clock().tick(1000)
-#         frame_count += 1
-#         clock.tick(frame_count)
-#         time[0] += 1
-#
-# timer_process = Thread(target = timer, daemon = True)
 
 def enter_game():
-    # start_time = [time.time()]
-    start_time[0] = time.time()
-    print(start_time[0])
-    # print(type(start_tim))
     snake_block = 20
-    snake_speed = 50
+    snake_speed = 10
     bullet_state =[False]
 
     i = 1
-    percentage = 5
+    percentage = 10
     while i <= int((percentage / 100) * 961):
         food_x = random.randint(0, 30)*20
         food_y = random.randint(0, 30)*20
@@ -92,13 +74,12 @@ def enter_game():
         pygame.draw.rect(display, pygame.Color((255, 0, 0)), ((carriage_pos*20), 640, 20, 20))
 
     def game():
-        # timer_process.start()
-        # print(time[0])
-        # start_time = time.time()
+
         game_over[0] = False
         snake_list = []
         length_of_snake = [10]
         turning_right = [True]
+        # test=["kevin"]
 
         x = [-20]
         y = [0]
@@ -106,7 +87,7 @@ def enter_game():
 
         def carriage(snake_block):
             while True:
-                # print(time[0])
+                # print("hi",snake_list)
                 if pygame.key.get_pressed()[pygame.K_LEFT]:
                     carriage_x[0] = carriage_x[0] - 1
                 elif pygame.key.get_pressed()[pygame.K_RIGHT]:
@@ -116,6 +97,7 @@ def enter_game():
                     bullet_state[0] = True
                 else:
                     bullet_state[0] = False
+
 
                 pygame.time.Clock().tick(50)
 
@@ -141,17 +123,24 @@ def enter_game():
 
                 snake(snake_block, snake_list)
                 # pygame.display.update()
-        T = Thread(target=carriage, args = (snake_block, ), daemon= True)
+
+
+        T = Thread(target=carriage, args = (snake_block, ))
+        T.setDaemon((True))
         T.start()
 
         def bullet():
-
+            print(snake_list)
+            # print(test)
+            # print(len(s))
             bullet_y = 32
             i = 1
 
             while True:
 
                 if bullet_state[0] == True:
+                    # print("hello",snake_list[0])
+                    # print("shot")
                     pygame.draw.rect(display, pygame.Color((255, 0, 0)), [(carriage_x[0] * 20),
                                                                           (bullet_y * 20), 20, 20])
                     pygame.display.update()
@@ -160,26 +149,17 @@ def enter_game():
                     if bullet_y < 0:
                         bullet_y = 32
 
-                    for i in snake_list:
-                        # print("hiii")
-                        # snake_list
-                        # for i in food_pos:
-                        #     if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
-                        #         # y = 32
-                        #         # break
-                        #         pass
-                        bullet_spot = (carriage_x[0]*20, bullet_y*20)
-                        # print(bullet_spot)
-                        # print(food_pos)
+                    # for i in range(0,len(snake_list)):
+                    #     print(snake_list)
+                    #     if carriage_x[0]*20 == snake_list[i][0] and bullet_y*20 == snake_list[i][1]:
+                    #         print("hit", snake_list[i])
+                    #         bullet_y = 32
+                    #         del snake_list[:i]
 
-                        if bullet_spot in food_pos:
-                            print("hit food")
-                            bullet_y = 32
-                        # if carriage_x[0]*20 == j[0] and bullet_y*20 == i[1]:
-                        #     print("hit food")
+                    for i in snake_list:
+                        snake_list
                         if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
                             if snake_list.index(i) == (len(snake_list)-1) :
-
                                 # snake_list = [(0,0)]
                                 print("hit", i[0], i[1])
                                 bullet_y = 32
@@ -193,9 +173,6 @@ def enter_game():
                                 y[0] = 0
                                 length_of_snake[0] = 1
                                 bullet_state[0] = False
-                                # time.sleep(1)
-                                loop_counter[0] = 0
-                                # time.sleep(1)
                             else:
                                 print("hit", i[0], i[1])
                                 bullet_y = 32
@@ -207,26 +184,27 @@ def enter_game():
 
                 else:
                     pygame.display.update()
+                    # print(snake_list)
 
-        T_2 = Thread(target=bullet, daemon= True)
+
+
+        T_2 = Thread(target=bullet)
+        T_2.setDaemon((True))
         T_2.start()
 
 
         while not game_over[0]:
-            # print(time[0])
-            # print("hi")
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_over[0] = True
             while y[0] < 600:
-                while loop_counter[0] <= 30:
-                # for loop_counter[0] in range(0, 31):
-                    print(loop_counter[0],x[0],y[0])
-                    # print(x[0],y[0])
-                    # print(time[0])
+
+                for i in range(0, 31):
+
                     flag = [False, False]
 
-                    if loop_counter[0]%2 == 0:
+                    if i%2 == 0:
                         turning_right[0] = True
                     else:
                         turning_right[0] = False
@@ -235,16 +213,10 @@ def enter_game():
 
                         pygame.time.Clock().tick(snake_speed)
 
-                        if x[0] == turn_locations[loop_counter[0]] * 20:
+                        if x[0] == turn_locations[i] * 20:
                             y[0] += 20
                             flag[0] = True
                             length_of_snake[0] += 1
-                            print(loop_counter[0],"HI",x[0],y[0])
-                            if loop_counter[0] == 30:
-                                end_time[0] = time.time()
-                                print("ended")
-                                print(end_time[0]-start_time[0])
-
                         else:
                             if turning_right:
                                 x[0] += 20
@@ -269,17 +241,18 @@ def enter_game():
                             return 0
 
 
-                    if loop_counter[0] % 2 == 0:
-                        while x[0] <= (turn_locations[loop_counter[0]] * 20):
+                    if i % 2 == 0:
+                        while x[0] <= (turn_locations[i] * 20):
                             ref = motion(True)
                             if ref == 0:
                                 break
                     else:
-                        while x[0] >= (turn_locations[loop_counter[0]] * 20):
+                        while x[0] >= (turn_locations[i] * 20):
                             ref = motion(False)
                             if ref == 0:
                                 break
-                    loop_counter[0]+=1
+
+
     game()
 
 
