@@ -13,11 +13,11 @@ game_over = [False]
 
 def enter_game():
     snake_block = 20
-    snake_speed = 10
+    snake_speed = 100
     bullet_state =[False]
 
     i = 1
-    percentage = 10
+    percentage = 5
     while i <= int((percentage / 100) * 961):
         food_x = random.randint(0, 30)*20
         food_y = random.randint(0, 30)*20
@@ -25,7 +25,7 @@ def enter_game():
         if (food_x, food_y) in food_pos:
             pass
         else:
-            food_pos.append((food_x, food_y))
+            food_pos.append([food_x, food_y])
             i += 1
 
     i = 1
@@ -145,10 +145,10 @@ def enter_game():
                         #         # y = 32
                         #         # break
                         #         pass
-                        bullet_spot = (carriage_x[0]*20, bullet_y*20)
+                        bullet_spot = [carriage_x[0]*20, bullet_y*20]
                         # print(bullet_spot)
                         # print(food_pos)
-
+                        print(food_pos)
                         if bullet_spot in food_pos:
                             print("hit food")
                             bullet_y = 32
@@ -175,8 +175,10 @@ def enter_game():
                                 removed_part = snake_list[:(snake_list.index(i)+1)]
                                 del snake_list[:(snake_list.index(i) + 1)]
                                 length_of_snake[0] = len(snake_list)
+                                print(removed_part)
                                 for i in removed_part:
                                     food_pos.append(i)
+
 
                 else:
                     pygame.display.update()
