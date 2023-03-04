@@ -2,6 +2,7 @@ import pygame
 import sys
 import random
 from threading import *
+import time
 
 pygame.init()
 display = pygame.display.set_mode((620, 720))
@@ -11,10 +12,13 @@ food_pos = []
 
 game_over = [False]
 
+start_time = [0]
+end_time = []
+
+
 turn_locations = []
 def turn_locations_finder():
     i = 1
-    # turn_locations = []
     turn_locations.clear()
     turn_location_right = random.randint(1, 30)
     turn_location_left = 0
@@ -30,8 +34,11 @@ def turn_locations_finder():
 
 
 def enter_game():
+
+    start_time[0] = time.time()
+
     snake_block = 20
-    snake_speed = 100
+    snake_speed = 10
     bullet_state =[False]
 
     i = 1
@@ -46,22 +53,7 @@ def enter_game():
             food_pos.append([food_x, food_y])
             i += 1
 
-    carriage_x = [15]
-    #
-    # i = 1
-    # turn_locations = []
-    # turn_location_right = random.randint(1, 30)
-    # turn_location_left = 0
-    # turn_locations.append(turn_location_right)
-    #
-    #
-    #
-    # while i <= 15:
-    #     turn_location_left = random.randint(0, turn_location_right)
-    #     turn_locations.append(turn_location_left)
-    #     turn_location_right = random.randint(turn_location_left, 30)
-    #     turn_locations.append(turn_location_right)
-    #     i += 1
+
     turn_locations_finder()
     print(turn_locations)
 
@@ -219,6 +211,13 @@ def enter_game():
                         turning_right[0] = True
                     else:
                         turning_right[0] = False
+
+                    if i == 30:
+                        end_time.append(time.time())
+
+                        elapsed = end_time[len(end_time)-1]-start_time[0]
+                        print(elapsed)
+
 
                     def motion(turning_right):
 
