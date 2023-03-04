@@ -11,6 +11,24 @@ food_pos = []
 
 game_over = [False]
 
+turn_locations = []
+def turn_locations_finder():
+    i = 1
+    # turn_locations = []
+    turn_locations.clear()
+    turn_location_right = random.randint(1, 30)
+    turn_location_left = 0
+    turn_locations.append(turn_location_right)
+
+    while i <= 15:
+        turn_location_left = random.randint(0, turn_location_right)
+        turn_locations.append(turn_location_left)
+        turn_location_right = random.randint(turn_location_left, 30)
+        turn_locations.append(turn_location_right)
+        i += 1
+
+
+
 def enter_game():
     snake_block = 20
     snake_speed = 100
@@ -28,20 +46,24 @@ def enter_game():
             food_pos.append([food_x, food_y])
             i += 1
 
-    i = 1
-    turn_locations = []
-    turn_location_right = random.randint(1, 30)
-    turn_location_left = 0
-    turn_locations.append(turn_location_right)
-
     carriage_x = [15]
-
-    while i <= 15:
-        turn_location_left = random.randint(0, turn_location_right)
-        turn_locations.append(turn_location_left)
-        turn_location_right = random.randint(turn_location_left, 30)
-        turn_locations.append(turn_location_right)
-        i += 1
+    #
+    # i = 1
+    # turn_locations = []
+    # turn_location_right = random.randint(1, 30)
+    # turn_location_left = 0
+    # turn_locations.append(turn_location_right)
+    #
+    #
+    #
+    # while i <= 15:
+    #     turn_location_left = random.randint(0, turn_location_right)
+    #     turn_locations.append(turn_location_left)
+    #     turn_location_right = random.randint(turn_location_left, 30)
+    #     turn_locations.append(turn_location_right)
+    #     i += 1
+    turn_locations_finder()
+    print(turn_locations)
 
     def snake(snake_block_function, snake_list_function):
         for site in snake_list_function:
@@ -138,25 +160,16 @@ def enter_game():
                         bullet_y = 32
 
                     for i in snake_list:
-                        # print("hiii")
-                        # snake_list
-                        # for i in food_pos:
-                        #     if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
-                        #         # y = 32
-                        #         # break
-                        #         pass
+
                         bullet_spot = [carriage_x[0]*20, bullet_y*20]
-                        # print(bullet_spot)
-                        # print(food_pos)
-                        print(food_pos)
+
                         if bullet_spot in food_pos:
                             print("hit food")
                             bullet_y = 32
-                        # if carriage_x[0]*20 == j[0] and bullet_y*20 == i[1]:
-                        #     print("hit food")
+
                         if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
                             if snake_list.index(i) == (len(snake_list)-1) :
-                                # snake_list = [(0,0)]
+
                                 print("hit", i[0], i[1])
                                 bullet_y = 32
                                 removed_part = snake_list[:(snake_list.index(i) + 1)]
@@ -165,17 +178,21 @@ def enter_game():
                                 for i in removed_part:
                                     food_pos.append(i)
 
+                                turn_locations_finder()
+                                print(turn_locations)
+
                                 x[0] = -20
                                 y[0] = 0
                                 length_of_snake[0] = 1
                                 bullet_state[0] = False
+
                             else:
                                 print("hit", i[0], i[1])
                                 bullet_y = 32
                                 removed_part = snake_list[:(snake_list.index(i)+1)]
                                 del snake_list[:(snake_list.index(i) + 1)]
                                 length_of_snake[0] = len(snake_list)
-                                print(removed_part)
+                                # print(removed_part)
                                 for i in removed_part:
                                     food_pos.append(i)
 
