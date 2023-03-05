@@ -88,7 +88,9 @@ def intro_page():
             if about_x <= mousepos[0] <= about_x + 50 and 600 <= mousepos[1] <= 650:
                 display.blit(about, (about_x, 600))
                 pygame.display.update()
-                print("about")
+                # print("about")
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    print("about")
             else:
                 display.blit(about_dark, (about_x, 600))
                 pygame.display.update()
@@ -96,7 +98,9 @@ def intro_page():
             if next_x <= mousepos[0] <= next_x + 50 and 600 <= mousepos[1] <= 650:
                 display.blit(next, (next_x, 600))
                 pygame.display.update()
-                print("next")
+                # print("next")
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    print("next")
             else:
                 display.blit(next_dark, (next_x, 600))
                 pygame.display.update()
