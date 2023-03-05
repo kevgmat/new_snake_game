@@ -8,6 +8,10 @@ pygame.init()
 display = pygame.display.set_mode((620, 720))
 background = pygame.Surface((620, 720))
 background.fill((0, 0, 0))
+pygame.display.set_caption("SNAKE_GAME")
+icon = pygame.image.load("icons/logo.png")
+pygame.display.set_icon(icon)
+
 food_pos = []
 
 game_over = [False]
