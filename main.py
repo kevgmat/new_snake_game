@@ -17,6 +17,8 @@ end_time = []
 
 
 turn_locations = []
+
+icon_size = 50
 def turn_locations_finder():
     i = 1
     turn_locations.clear()
@@ -32,6 +34,71 @@ def turn_locations_finder():
         i += 1
 
 
+def intro_page():
+    display = pygame.display.set_mode((620,720))
+
+    about = pygame.image.load("icons/about.png")
+    about_dark = pygame.image.load("icons/about_dark.png")
+    next = pygame.image.load("icons/next.png")
+    next_dark = pygame.image.load("icons/next_dark.png")
+
+    about = pygame.transform.scale(about, (icon_size, icon_size))
+    about_dark = pygame.transform.scale(about_dark, (icon_size, icon_size))
+    next = pygame.transform.scale(next, (icon_size, icon_size))
+    next_dark = pygame.transform.scale(next_dark, (icon_size, icon_size))
+
+    font = pygame.font.SysFont('Corbel', 32)
+
+    pygame.display.update()
+    background = pygame.Surface((620, 720))
+    background.fill((255, 255, 255))
+
+    image = pygame.image.load("wallpaper/sky_test.jpg")
+    image = pygame.transform.scale(image, (620, 720))
+    image = image.convert()
+
+    rect = image.get_rect()
+
+    # display.fill(0,0,0)
+
+
+    offset = 200
+    done = False
+
+    display.blit(image,rect)
+    pygame.display.update()
+    # time.sleep(2000)
+
+
+    while not done:
+        for event in pygame.event.get():
+            mousepos = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                done = True
+                pygame.quit()
+            # if event.type == pygame.MOUSEBUTTONDOWN and a != 1:
+            # if event.type == pygame.KEYDOWN:
+            #     display.blit()
+            about_x = 620/2 - (1/2)*offset - icon_size/2
+            next_x = 620/2 + (1/2)*offset - icon_size/2
+            if about_x <= mousepos[0] <= about_x + 50 and 600 <= mousepos[1] <= 650:
+                display.blit(about, (about_x, 600))
+                pygame.display.update()
+                print("about")
+            else:
+                display.blit(about_dark, (about_x, 600))
+                pygame.display.update()
+
+            if next_x <= mousepos[0] <= next_x + 50 and 600 <= mousepos[1] <= 650:
+                display.blit(next, (next_x, 600))
+                pygame.display.update()
+                print("next")
+            else:
+                display.blit(next_dark, (next_x, 600))
+                pygame.display.update()
+    pygame.display.update()
+
+intro_page()
 
 def enter_game():
 
@@ -42,7 +109,7 @@ def enter_game():
     bullet_state =[False]
 
     i = 1
-    percentage = 5
+    percentage = 10
     while i <= int((percentage / 100) * 961):
         food_x = random.randint(0, 30)*20
         food_y = random.randint(0, 30)*20
