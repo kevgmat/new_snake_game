@@ -253,8 +253,11 @@ def enter_game(snake_speed, snake_color, wallpaper):
             # pygame.draw.line(display, pygame.Color((0, 255, 0)), ((i * 20), 620), ((i * 20), 720), width=1)
 
     def food_display():
+        food = pygame.image.load("icons/apple.png")
+        food = pygame.transform.scale(food, (20, 20))
         for food_item in food_pos:
-            pygame.draw.rect(display, pygame.Color((0, 0, 255)), [((food_item[0])), ((food_item[1])), 20, 20])
+            # pygame.draw.rect(display, pygame.Color((0, 0, 255)), [((food_item[0])), ((food_item[1])), 20, 20])
+            display.blit(food, (((food_item[0])), ((food_item[1]))))
 
     def carriage_drawing(carriage_pos):
         carriage = pygame.image.load("icons/carriage.png")
@@ -284,6 +287,9 @@ def enter_game(snake_speed, snake_color, wallpaper):
         carriage_x = [15]
 
         def carriage(snake_block):
+            food = pygame.image.load("icons/apple.png")
+            food = pygame.transform.scale(food,(20,20))
+
             while True:
 
                 clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
@@ -318,8 +324,15 @@ def enter_game(snake_speed, snake_color, wallpaper):
                 #     pygame.draw.line(display, pygame.Color((0, 255, 0)), ((i * 20), 620), ((i * 20), 720), width=1)
 
                 for food_item in food_pos:
-                    pygame.draw.rect(display, pygame.Color((0, 0, 255)),
-                                     [((food_item[0])), ((food_item[1])), 20, 20])
+                    # carriage = pygame.image.load("icons/carriage.png")
+                    # carriage = pygame.transform.scale(carriage, (60, 40))
+                    # # carriage = carriage.convert()
+                    #
+                    # display.blit(carriage, ((carriage_pos * 20 - 20), 640))
+                    # # display.blit(carriage, ())
+                    display.blit(food, (((food_item[0])), ((food_item[1]))))
+                    # pygame.draw.rect(display, pygame.Color((0, 0, 255)),
+                    #                  [((food_item[0])), ((food_item[1])), 20, 20])
                 if carriage_x[0] >30:
                     carriage_x[0] -= 30
                 elif carriage_x[0] <0:
