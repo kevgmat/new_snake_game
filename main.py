@@ -346,15 +346,17 @@ def enter_game(snake_speed, snake_color, wallpaper):
         T.start()
 
         def bullet():
-
+            bullet_icon = pygame.image.load("icons/bullet.png")
+            bullet_icon = pygame.transform.scale(bullet_icon, (20, 20))
             bullet_y = 32
             i = 1
 
             while True:
 
                 if bullet_state[0] == True:
-                    pygame.draw.rect(display, pygame.Color((255, 0, 0)), [(carriage_x[0] * 20),
-                                                                          (bullet_y * 20), 20, 20])
+                    display.blit(bullet_icon,((carriage_x[0] * 20),(bullet_y * 20)))
+                    # pygame.draw.rect(display, pygame.Color((255, 0, 0)), [(carriage_x[0] * 20),
+                    #                                                       (bullet_y * 20), 20, 20])
                     pygame.display.update()
                     bullet_y -= 1
                     pygame.time.Clock().tick(500)
