@@ -23,6 +23,17 @@ end_time = []
 turn_locations = []
 
 icon_size = 50
+
+colors = {0: (0, 0, 0), 1: (255, 0, 0), 2: (255, 255, 255), 3: (255, 255, 0),
+          4: (0, 255, 0), 5: (0, 0, 255), 6: (255, 128, 0), 7: (153, 0, 153)}
+# 0 = black
+# 1 = red
+# 2 = white
+# 3 = yellow
+# 4 = green                                                                                                             #
+# 5 = blue
+# 6 = purple
+
 def turn_locations_finder():
     i = 1
     turn_locations.clear()
@@ -37,7 +48,78 @@ def turn_locations_finder():
         turn_locations.append(turn_location_right)
         i += 1
 
+# print(colors[2])
 
+def message(msg, color, width_location, height_location, size, offset):
+    mesg = pygame.font.SysFont("corbel", size).render(msg, True, color)
+    print(width_location)
+    print(size)
+    print(offset)
+    if offset == True:
+        width_location = width_location - (len(msg)/2)*(size/3)
+        print(len(msg))
+        print(width_location)
+        # pygame.display.update()
+    else:
+        pass
+    display.blit(mesg, (width_location, height_location))
+    pygame.display.update()
+def about_func():
+    clean = pygame.image.load("wallpaper/sky_test.jpg")
+    clean = pygame.transform.scale(clean, (620, 720))
+    clean = clean.convert()
+
+    display.blit(clean,(0,0))
+    pygame.display.update()
+
+    back = pygame.image.load("icons/back.png")
+    back_dark = pygame.image.load("icons/back_dark.png")
+    copyright = pygame.image.load("icons/copyright.png")
+
+    back = pygame.transform.scale(back, (50,50))
+    back_dark = pygame.transform.scale(back_dark, (50, 50))
+    copyright = pygame.transform.scale(copyright, (15,15))
+
+    message("Created by Kevin for Crux Round 3 inductions", colors[2], 310, 280, 25, True)
+    message("Basilisk 2.0. All Rights Reserved", colors[2], 310, 310, 17, True)
+    display.blit(copyright,(195,305))
+
+    pygame.display.update()
+
+    done = False
+    while not done:
+        for event in pygame.event.get():
+            mousepos = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                done = True
+                pygame.quit()
+            back_x = 620/2 - (1/2)*200 - icon_size/2
+            if back_x <= mousepos[0] <= back_x + 50 and 600 <= mousepos[1] <= 650:
+                display.blit(back,(back_x, 600))
+                print("back")
+            else:
+                display.blit(back_dark, (back_x, 600))
+            pygame.display.update()
+
+
+def next_func():
+    clean = pygame.image.load("wallpaper/sky_test.jpg")
+    clean = pygame.transform.scale(clean, ( 620, 720))
+    clean = clean.convert()
+
+    display.blit(clean, (0,0))
+    pygame.display.update()
+
+    back = pygame.image.load("icons/back.png")
+    back_dark = pygame.image.load("icons/back_dark.png")
+    copyright = pygame.image.load("icons/copyright.png")
+
+    back = pygame.transform.scale(back, (50, 50))
+    back_dark = pygame.transform.scale(back_dark, (50, 50))
+
+    message("this is next page", colors[2], 310,310,25, True)
+
+    pygame.display.update()
 def intro_page():
     display = pygame.display.set_mode((620,720))
 
@@ -91,6 +173,7 @@ def intro_page():
                 # print("about")
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     print("about")
+                    about_func()
             else:
                 display.blit(about_dark, (about_x, 600))
                 pygame.display.update()
