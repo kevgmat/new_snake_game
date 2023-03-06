@@ -52,20 +52,20 @@ def turn_locations_finder():
 
 def message(msg, color, width_location, height_location, size, offset):
     mesg = pygame.font.SysFont("corbel", size).render(msg, True, color)
-    print(width_location)
-    print(size)
-    print(offset)
+    # print(width_location)
+    # print(size)
+    # print(offset)
     if offset == True:
         width_location = width_location - (len(msg)/2)*(size/3)
-        print(len(msg))
-        print(width_location)
+        # print(len(msg))
+        # print(width_location)
         # pygame.display.update()
     else:
         pass
     display.blit(mesg, (width_location, height_location))
     pygame.display.update()
 def about_func():
-    clean = pygame.image.load("wallpaper/sky_test.jpg")
+    clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
     clean = pygame.transform.scale(clean, (620, 720))
     clean = clean.convert()
 
@@ -106,7 +106,7 @@ def about_func():
 
 
 def next_func():
-    clean = pygame.image.load("wallpaper/sky_test.jpg")
+    clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
     clean = pygame.transform.scale(clean, ( 620, 720))
     clean = clean.convert()
 
@@ -142,7 +142,7 @@ def intro_page():
     background = pygame.Surface((620, 720))
     background.fill((255, 255, 255))
 
-    image = pygame.image.load("wallpaper/sky_test.jpg")
+    image = pygame.image.load("wallpaper/wallpaper_clean.jpg")
     image = pygame.transform.scale(image, (620, 720))
     image = image.convert()
 
@@ -195,18 +195,25 @@ def intro_page():
 
 intro_page()
 
-clean = pygame.image.load("wallpaper/sky_test.jpg")
+clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
 clean = pygame.transform.scale(clean, (620, 720))
 clean = clean.convert()
 display.blit(clean, (0,0))
 pygame.display.update()
-time.sleep(3)
-def enter_game():
+# time.sleep(3)
+def enter_game(snake_speed, snake_color, wallpaper):
+    # test = pygame.image.load("icons/back.png")
+    # test = pygame.transform.scale(test, (60, 40))
+    # # test = test.convert()
+    # display.blit(test, (300, 300))
+    # pygame.display.update()
+    # time.sleep(3)
+
 
     start_time[0] = time.time()
 
     snake_block = 20
-    snake_speed = 10
+    # snake_speed = 10
     bullet_state =[False]
 
     i = 1
@@ -237,8 +244,8 @@ def enter_game():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        for i in range(1, 32):
-            pass
+        # for i in range(1, 32):
+        #     pass
             # pygame.draw.line(display, pygame.Color((255, 0, 0)), (0, (i * 20)), (620, (i * 20)), width=1)
             # pygame.draw.line(display, pygame.Color((255, 0, 0)), ((i * 20), 0), ((i * 20), 620), width=1)
             #
@@ -250,8 +257,20 @@ def enter_game():
             pygame.draw.rect(display, pygame.Color((0, 0, 255)), [((food_item[0])), ((food_item[1])), 20, 20])
 
     def carriage_drawing(carriage_pos):
-        pygame.draw.rect(display, pygame.Color((255, 0, 0)), ((carriage_pos*20-20), 660, 60, 20))
-        pygame.draw.rect(display, pygame.Color((255, 0, 0)), ((carriage_pos*20), 640, 20, 20))
+        carriage = pygame.image.load("icons/carriage.png")
+        carriage = pygame.transform.scale(carriage, (60, 40))
+        # carriage = carriage.convert()
+
+        display.blit(carriage, ((carriage_pos*20-20), 640))
+        # display.blit(carriage, ())
+        #
+        # pygame.draw.rect(display, pygame.Color((255, 0, 0)), ((carriage_pos*20-20), 660, 60, 20))
+        # pygame.draw.rect(display, pygame.Color((255, 0, 0)), ((carriage_pos*20), 640, 20, 20))
+
+        # test = pygame.image.load("icons/back.png")
+        # test = pygame.transform.scale(test, (60,40))
+        # test = test.convert()
+        # display.blit(test, (300,300))
 
     def game():
 
@@ -266,6 +285,11 @@ def enter_game():
 
         def carriage(snake_block):
             while True:
+
+                clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
+                clean = pygame.transform.scale(clean, (620, 720))
+                clean = clean.convert()
+
                 if pygame.key.get_pressed()[pygame.K_LEFT]:
                     carriage_x[0] = carriage_x[0] - 1
                 elif pygame.key.get_pressed()[pygame.K_RIGHT]:
@@ -278,15 +302,20 @@ def enter_game():
 
                 pygame.time.Clock().tick(50)
 
-                pygame.draw.rect(display, pygame.Color((0, 0, 0)), [0, 0, 620, 720])
-
-                for i in range(1, 32):
-                    pygame.draw.line(display, pygame.Color((255, 0, 0)), (0, (i * 20)), (620, (i * 20)), width=1)
-                    pygame.draw.line(display, pygame.Color((255, 0, 0)), ((i * 20), 0), ((i * 20), 620), width=1)
-
-                    pygame.draw.line(display, pygame.Color((0, 255, 0)), (0, ((i + 31) * 20)), (620, ((i + 31) * 20)),
-                                     width=1)
-                    pygame.draw.line(display, pygame.Color((0, 255, 0)), ((i * 20), 620), ((i * 20), 720), width=1)
+                # clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
+                # clean = pygame.transform.scale(clean, (620, 720))
+                # clean = clean.convert()
+                display.blit(clean, (0,0))
+                # print("hi")
+                # pygame.draw.rect(display, pygame.Color((0, 0, 0)), [0, 0, 620, 720])
+                #
+                # for i in range(1, 32):
+                #     pygame.draw.line(display, pygame.Color((255, 0, 0)), (0, (i * 20)), (620, (i * 20)), width=1)
+                #     pygame.draw.line(display, pygame.Color((255, 0, 0)), ((i * 20), 0), ((i * 20), 620), width=1)
+                #
+                #     pygame.draw.line(display, pygame.Color((0, 255, 0)), (0, ((i + 31) * 20)), (620, ((i + 31) * 20)),
+                #                      width=1)
+                #     pygame.draw.line(display, pygame.Color((0, 255, 0)), ((i * 20), 620), ((i * 20), 720), width=1)
 
                 for food_item in food_pos:
                     pygame.draw.rect(display, pygame.Color((0, 0, 255)),
@@ -324,13 +353,13 @@ def enter_game():
                         bullet_spot = [carriage_x[0]*20, bullet_y*20]
 
                         if bullet_spot in food_pos:
-                            print("hit food")
+                            # print("hit food")
                             bullet_y = 32
 
                         if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
                             if snake_list.index(i) == (len(snake_list)-1) :
 
-                                print("hit", i[0], i[1])
+                                # print("hit", i[0], i[1])
                                 bullet_y = 32
                                 removed_part = snake_list[:(snake_list.index(i) + 1)]
                                 del snake_list[:(snake_list.index(i) + 1)]
@@ -339,7 +368,7 @@ def enter_game():
                                     food_pos.append(i)
 
                                 turn_locations_finder()
-                                print(turn_locations)
+                                # print(turn_locations)
 
                                 x[0] = -20
                                 y[0] = 0
@@ -347,7 +376,7 @@ def enter_game():
                                 bullet_state[0] = False
 
                             else:
-                                print("hit", i[0], i[1])
+                                # print("hit", i[0], i[1])
                                 bullet_y = 32
                                 removed_part = snake_list[:(snake_list.index(i)+1)]
                                 del snake_list[:(snake_list.index(i) + 1)]
@@ -432,6 +461,6 @@ def enter_game():
     game()
 
 
-enter_game()
+enter_game(10, 1, 1)
 pygame.quit()
 sys.exit()
