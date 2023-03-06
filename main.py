@@ -187,6 +187,7 @@ def intro_page():
                 # print("next")
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     print("next")
+                    done = True
             else:
                 display.blit(next_dark, (next_x, 600))
                 pygame.display.update()
@@ -194,6 +195,12 @@ def intro_page():
 
 intro_page()
 
+clean = pygame.image.load("wallpaper/sky_test.jpg")
+clean = pygame.transform.scale(clean, (620, 720))
+clean = clean.convert()
+display.blit(clean, (0,0))
+pygame.display.update()
+time.sleep(3)
 def enter_game():
 
     start_time[0] = time.time()
