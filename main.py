@@ -96,7 +96,10 @@ def about_func():
             back_x = 620/2 - (1/2)*200 - icon_size/2
             if back_x <= mousepos[0] <= back_x + 50 and 600 <= mousepos[1] <= 650:
                 display.blit(back,(back_x, 600))
-                print("back")
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    done = True
+                    display.blit(clean, (0,0))
+                    print("back")
             else:
                 display.blit(back_dark, (back_x, 600))
             pygame.display.update()
