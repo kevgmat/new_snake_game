@@ -193,6 +193,88 @@ def intro_page():
                 pygame.display.update()
     pygame.display.update()
 
+color_inactive = pygame.Color((250, 90, 90))                                                                            # setting the color light red for regular use
+color_active = pygame.Color((255, 0, 0))
+
+snake_speed = -1
+snake_color = -1
+snake_wallpaper = -1
+
+
+def box(x,y,box_color = color_inactive):
+    box_to_use = pygame.Rect(x, y , 150, 30)
+    pygame.draw.rect(display, box_color, box_to_use)
+
+def wipe():
+    display.blit(clean, (0,0))
+
+
+def button(event, options, x_location,y_location, box_name, box_value):
+    b = True
+    pygame.draw.rect(display, color_active, box_name)
+    if box_value != -1:
+        for i in range(int(len(options)/2)):
+            if box_value == options[i]:
+                message(options[i + int(len(options)/2)], colors[0], x_location+30, y_location+10, 24, True)
+    else:
+        message("Select", colors[0], x_location+30, y_location+10, 24,True)
+    sub_buttons = {}
+    for i in range(int(len(options)/2)):
+        sub_buttons[i] = pygame.Rect(x_location, y_location+(30*(i+1)),150,30)
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        global a
+        a = True
+        w = False
+        if box_name.collidepoint(event.pos):
+            for i in range(int(len(options)/2)):
+                box(x_location, y_location+(30*(i+1)))
+                message(options[i + int(len(options) / 2)], colors[0],x_location+30,
+                        y_location+10+(30*(i+1)), 20, True)
+            while a:
+                for event in pygame.event.get():
+                    mousepos = pygame.mouse.get_pos()
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        a = False
+                    for a in range(int(len(options) / 2)):
+                        if (x_location <= mousepos[0] <=x_location+150 )and (
+                                (y_location + (30*(i+1)))<= mousepos[1] <= (y_location+(30*(i+1)))):
+                            pygame.draw.rect(display, color_active, sub_buttons[i])
+                            message(options[i + int(len(options)/2)], colors[0],x_location+30,
+                                    y_location + 10 + (30 * (i + 1)), 20, True)
+                            if event.type==pygame.MOUSEBUTTONDOWN:
+                                a = False
+                                box_value = i
+                                pygame.event.clear()
+                                w = True
+                        else:
+                            pygame.draw.rect(display, color_inactive,sub_buttons[i])
+                            message(options[i+int(len(options)/2)], colors[0], x_location+30,
+                                    y_location + 10 + (30 * (i + 1)), 20, True)
+
+                        if w:
+                            wipe()
+                    if (x_location <= mousepos[0] <= x_location + 150) and (                                            # code to make the drop down disappear when you click on another area other than the sub button
+                        (y_location + (30 * (i + 1))) <= mousepos[1] <= (y_location + (30 * (i + 2)))):
+                        pass
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        wipe()
+                        a = False
+                        break
+        else:
+            b = False
+    return b,box_value
+
+def else_button(optiosn, x_location, y_location, box_name, box_value):
+    pygame.draw.rect(display, color_inactive, box_name)
+    if box_value != -1:
+        for i in range(int(len(options)/2)):
+            if box_value == options[i]:
+                message(options[i + int(len(options)/2)], colors[0], x_location+30, y_location+10, 24)
+    else:
+        message("Select", colors[0], x_location+30, y_location+10, 24)
+
+
 intro_page()
 
 clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
@@ -201,6 +283,38 @@ clean = clean.convert()
 display.blit(clean, (0,0))
 pygame.display.update()
 # time.sleep(3)
+
+box_x = 110
+box_y = 300
+
+snake_color_box = pygame.Rect(box_x, box_y, 150, 40)
+wallpaper_box = pygame.Rect(box_x + 250, box_y, 150, 40)
+mousepos = ()
+run = True
+
+
+# color_inactive = pygame.Color((250, 90, 90))                                                                            # setting the color light red for regular use
+# color_active = pygame.Color((255, 0, 0))
+#
+# snake_speed = -1
+# snake_color = -1
+# snake_wallpaper = -1
+
+while run:
+    for event in pygame.event.get():
+        mousepos = pygame.mouse.get_pos()
+        a = False
+        if box_x <= mousepos[0] <= box_x + 150 and box_y <= mousepos[1] <= box_y + 40:
+            options = [0,1,2,"Red","Black", "White"]
+            x_location = box_x
+            y_location = box_y
+            returned = button(event, options, x_location,y_location,snake_color_box,snake_color)
+            if not returned[0]:
+                break
+            snake_speed = returned[1]
+            pygame.display.update()
+
+
 def enter_game(snake_speed, snake_color, wallpaper):
     # test = pygame.image.load("icons/back.png")
     # test = pygame.transform.scale(test, (60, 40))
