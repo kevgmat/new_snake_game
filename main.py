@@ -234,7 +234,7 @@ def enter_game(snake_speed, snake_color, wallpaper):
 
     def snake(snake_block_function, snake_list_function):
         for site in snake_list_function:
-            pygame.draw.rect(display, pygame.Color((255, 255, 255)),
+            pygame.draw.rect(display, snake_color,
                              [site[0], site[1], snake_block_function, snake_block_function],
                              width=3)
 
@@ -291,8 +291,8 @@ def enter_game(snake_speed, snake_color, wallpaper):
             food = pygame.transform.scale(food,(20,20))
 
             while True:
-
-                clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
+                background_image = "wallpaper/"+str(wallpaper)
+                clean = pygame.image.load(background_image)
                 clean = pygame.transform.scale(clean, (620, 720))
                 clean = clean.convert()
 
@@ -476,6 +476,6 @@ def enter_game(snake_speed, snake_color, wallpaper):
     game()
 
 
-enter_game(10, 1, 1)
+enter_game(10,colors[2], "wallpaper_clean.jpg")
 pygame.quit()
 sys.exit()
