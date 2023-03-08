@@ -406,7 +406,7 @@ while run:
             pygame.display.update()
 
         if box_x + 250 <= mousepos[0] <= box_x + 400 and box_y <= mousepos[1] <= box_y + 40:
-            options = [0,1,2,3,"wallpaper_1", "wallpaper_2", "wallpaper_3", "wallpaper_4"]
+            options = [0,1,2,3,"Space", "Mars", "City", "Forest"]
             x_location = box_x + 250
             y_location = box_y
             returned = drop_down_button(event, options, x_location, y_location, wallpaper_box, snake_wallpaper)
@@ -416,7 +416,7 @@ while run:
             # print("snake wallpaper = ", snake_wallpaper)
             pygame.display.update()
         else:
-            options = [0, 1, 2, 3, "wallpaper_1", "wallpaper_2", "wallpaper_3", "wallpaper_4"]
+            options = [0,1,2,3,"Space", "Mars", "City", "Forest"]
             x_location = box_x + 250
             y_location = box_y
             else_drop_down_button(options, x_location,y_location, wallpaper_box, snake_wallpaper)
@@ -453,6 +453,15 @@ elif snake_color == 1:
     snake_color  = (0,0,0)
 elif snake_color == 2:
     snake_color = (255,255,255)
+
+if snake_wallpaper == 0:
+    snake_wallpaper = "space.jpg"
+elif snake_wallpaper == 1:
+    snake_wallpaper = "mars.jpg"
+elif snake_wallpaper == 2:
+    snake_wallpaper = "city.jpg"
+elif snake_wallpaper == 3:
+    snake_wallpaper = "forest.jpg"
 print(snake_color)
 print(snake_wallpaper)
 print(snake_speed)
@@ -731,6 +740,6 @@ def enter_game(snake_speed, snake_color, wallpaper):
     game()
 
 
-enter_game(snake_speed,snake_color, "wallpaper_clean.jpg")
+enter_game(snake_speed,snake_color, snake_wallpaper)
 pygame.quit()
 sys.exit()
