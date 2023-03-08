@@ -446,6 +446,13 @@ elif difficulty[0] == "Medium":
     snake_speed = 40
 elif difficulty[0] == "Hard":
     snake_speed = 70
+
+if snake_color == 0:
+    snake_color = (255,0,0)
+elif snake_color == 1:
+    snake_color  = (0,0,0)
+elif snake_color == 2:
+    snake_color = (255,255,255)
 print(snake_color)
 print(snake_wallpaper)
 print(snake_speed)
@@ -724,6 +731,6 @@ def enter_game(snake_speed, snake_color, wallpaper):
     game()
 
 
-enter_game(snake_speed,colors[2], "wallpaper_clean.jpg")
+enter_game(snake_speed,snake_color, "wallpaper_clean.jpg")
 pygame.quit()
 sys.exit()
