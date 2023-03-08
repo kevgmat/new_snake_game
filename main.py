@@ -196,6 +196,7 @@ def intro_page():
 color_inactive = pygame.Color((250, 90, 90))                                                                            # setting the color light red for regular use
 color_active = pygame.Color((255, 0, 0))
 
+print("test")
 snake_speed = -1
 snake_color = -1
 snake_wallpaper = -1
@@ -212,10 +213,13 @@ def wipe():
 def button(event, options, x_location,y_location, box_name, box_value):
     b = True
     pygame.draw.rect(display, color_active, box_name)
+    print(box_value)
     if box_value != -1:
+        print("hello")
         for i in range(int(len(options)/2)):
             if box_value == options[i]:
                 message(options[i + int(len(options)/2)], colors[0], x_location+30, y_location+10, 24, True)
+                print("hi")
     else:
         message("Select", colors[0], x_location+30, y_location+10, 24,True)
     sub_buttons = {}
@@ -233,18 +237,22 @@ def button(event, options, x_location,y_location, box_name, box_value):
             while a:
                 for event in pygame.event.get():
                     mousepos = pygame.mouse.get_pos()
+                    # print(mousepos)
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         a = False
-                    for a in range(int(len(options) / 2)):
+                    for i in range(int(len(options) / 2)):
                         if (x_location <= mousepos[0] <=x_location+150 )and (
-                                (y_location + (30*(i+1)))<= mousepos[1] <= (y_location+(30*(i+1)))):
+                                (y_location + (30*(i+1)))<= mousepos[1] <= (y_location+(30*(i+2)))):
+                            # print("pressed")
                             pygame.draw.rect(display, color_active, sub_buttons[i])
                             message(options[i + int(len(options)/2)], colors[0],x_location+30,
                                     y_location + 10 + (30 * (i + 1)), 20, True)
                             if event.type==pygame.MOUSEBUTTONDOWN:
+                                # print("pressed")
                                 a = False
                                 box_value = i
+                                print(box_value)
                                 pygame.event.clear()
                                 w = True
                         else:
@@ -258,11 +266,13 @@ def button(event, options, x_location,y_location, box_name, box_value):
                         (y_location + (30 * (i + 1))) <= mousepos[1] <= (y_location + (30 * (i + 2)))):
                         pass
                     elif event.type == pygame.MOUSEBUTTONDOWN:
+                        print("pressed outside")
                         wipe()
                         a = False
                         break
         else:
             b = False
+    print("returning:", box_value)
     return b,box_value
 
 def else_button(optiosn, x_location, y_location, box_name, box_value):
@@ -270,9 +280,9 @@ def else_button(optiosn, x_location, y_location, box_name, box_value):
     if box_value != -1:
         for i in range(int(len(options)/2)):
             if box_value == options[i]:
-                message(options[i + int(len(options)/2)], colors[0], x_location+30, y_location+10, 24)
+                message(options[i + int(len(options)/2)], colors[0], x_location+30, y_location+10, 24, True)
     else:
-        message("Select", colors[0], x_location+30, y_location+10, 24)
+        message("Select", colors[0], x_location+30, y_location+10, 24, True)
 
 
 intro_page()
@@ -311,8 +321,16 @@ while run:
             returned = button(event, options, x_location,y_location,snake_color_box,snake_color)
             if not returned[0]:
                 break
-            snake_speed = returned[1]
+            snake_color = returned[1]
+            print("snake color = ", snake_color)
             pygame.display.update()
+        else:
+            options = [0,1,2,"Red","Black","White"]
+            x_location = box_x
+            y_location = box_y
+            else_button(options, x_location, y_location, snake_color_box,snake_color)
+            pygame.display.update()
+
 
 
 def enter_game(snake_speed, snake_color, wallpaper):
