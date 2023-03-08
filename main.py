@@ -84,9 +84,9 @@ def about_func():
     back_dark = pygame.transform.scale(back_dark, (50, 50))
     copyright = pygame.transform.scale(copyright, (15,15))
 
-    message("Created by Kevin for Crux Round 3 inductions", colors[2], 310, 280, 25, True)
-    message("Basilisk 2.0. All Rights Reserved", colors[2], 310, 310, 17, True)
-    display.blit(copyright,(195,305))
+    message("Created by Kevin for Crux Round 3 inductions", colors[2], 50, 280, 25, True)
+    message("Basilisk 2.0. All Rights Reserved", colors[2], 210, 310, 17, True)
+    display.blit(copyright,(175,310))
 
     pygame.display.update()
 
@@ -443,7 +443,7 @@ while run:
             pygame.display.update()
 
         if box_x + 250 <= mousepos[0] <= box_x + 400 and box_y <= mousepos[1] <= box_y + 40:
-            options = [0,1,2,3,"Space", "Mars", "City", "Forest"]
+            options = [0,1,2,3,"Ocean", "Mars", "Beach", "Forest"]
             x_location = box_x + 250
             y_location = box_y
             returned = drop_down_button(event, options, x_location, y_location, wallpaper_box, snake_wallpaper)
@@ -453,7 +453,7 @@ while run:
             # print("snake wallpaper = ", snake_wallpaper)
             pygame.display.update()
         else:
-            options = [0,1,2,3,"Space", "Mars", "City", "Forest"]
+            options = [0,1,2,3,"Ocean", "Mars", "Beach", "Forest"]
             x_location = box_x + 250
             y_location = box_y
             else_drop_down_button(options, x_location,y_location, wallpaper_box, snake_wallpaper)
@@ -495,11 +495,11 @@ elif snake_color == 2:
     snake_color = (255,255,255)
 
 if snake_wallpaper == 0:
-    snake_wallpaper = "space.jpg"
+    snake_wallpaper = "ocean.jpg"
 elif snake_wallpaper == 1:
     snake_wallpaper = "mars.jpg"
 elif snake_wallpaper == 2:
-    snake_wallpaper = "city.jpg"
+    snake_wallpaper = "beach.jpg"
 elif snake_wallpaper == 3:
     snake_wallpaper = "forest.jpg"
 print(snake_color)
