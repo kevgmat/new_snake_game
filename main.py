@@ -439,9 +439,16 @@ while run:
             385 <= mousepos[0] <= 435 and 600 <= mousepos[1] <= 650):
             message("Please select all options", colors[0], 210, 665, 20, True)
 
+
+if difficulty[0] == "Easy":
+    snake_speed = 10
+elif difficulty[0] == "Medium":
+    snake_speed = 40
+elif difficulty[0] == "Hard":
+    snake_speed = 70
 print(snake_color)
 print(snake_wallpaper)
-print(difficulty)
+print(snake_speed)
 def enter_game(snake_speed, snake_color, wallpaper):
     # test = pygame.image.load("icons/back.png")
     # test = pygame.transform.scale(test, (60, 40))
@@ -717,6 +724,6 @@ def enter_game(snake_speed, snake_color, wallpaper):
     game()
 
 
-enter_game(10,colors[2], "wallpaper_clean.jpg")
+enter_game(snake_speed,colors[2], "wallpaper_clean.jpg")
 pygame.quit()
 sys.exit()
