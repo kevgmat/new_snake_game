@@ -311,6 +311,14 @@ def box(x, y, box_color = color_inactive):
     box_to_use = pygame.Rect(x, y , 150, 40)
     pygame.draw.rect(display, box_color, box_to_use)
 
+
+def loading(x,y, color, length, fill):
+    if fill == False:
+        box_to_use = pygame.Rect(x,y, length, 20)
+        pygame.draw.rect(display, color, box_to_use, width = 2)
+    else:
+        box_to_use = pygame.Rect(x,y,length, 20)
+        pygame.draw.rect(display, color, box_to_use)
 def wipe():
     display.blit(clean, (0,0))
 
@@ -455,7 +463,7 @@ main_button = ("songs/main_button.mp3")
 sub_button = ("songs/sub_button.mp3")
 next_button = ("songs/next_button.mp3")
 
-loop_counter = [0]
+loop_counter = [-1]
 
 while run:
     for event in pygame.event.get():
@@ -541,6 +549,11 @@ while run:
                 pygame.mixer.music.load(next_button)
                 pygame.mixer.music.set_volume(1)
                 pygame.mixer.music.play()
+                loading(210,500, colors[2], 200, fill =False)
+                for i in range(0,200):
+                    loading(210, 500, colors[2], i, fill = True)
+                    time.sleep(0.01)
+                    pygame.display.update()
 
         elif selected == 0 and pygame.MOUSEBUTTONDOWN and (
             385 <= mousepos[0] <= 435 and 600 <= mousepos[1] <= 650):
@@ -574,11 +587,14 @@ elif snake_wallpaper == 3:
 eating_apple = ("songs/eating_apple_2.mp3")
 laser = ("songs/laser_2.mp3")
 
-def end_screen(time_taken):
+def end_screen(time_taken, wallpaper):
     print("ended")
-    display.blit(clean,(0,0))
-    message("GAME OVER", colors[0], 300,300,20, False)
-    message(str(time_taken), colors[0] ,300, 350,20, False)
+    image = pygame.image.load("wallpaper/" + str(wallpaper))
+    image = pygame.transform.scale(image, (620,720))
+
+    display.blit(image,(0,0))
+    message("GAME OVER", colors[0], 230,150,30, False)
+    message("time taken = " + str(time_taken), colors[0] ,240, 200,20, False)
     pygame.display.update()
     time.sleep(2)
     display.blit
@@ -687,7 +703,7 @@ def enter_game(snake_speed, snake_color, wallpaper):
                 pygame.draw.rect(display,colors[0],[0,680, 620,40])
                 to_display = "time = "
                 test = (time.time()-start_time[0])*10
-                test = str(int(test)/10)
+                test = "time = " + str(int(test)/10)
                 # print(test)
                 # to_display = "time = "+ str(end_time[len(end_time)-1]-start_time[0])
                 message(test, colors[1],10,690,20,False)
@@ -801,17 +817,16 @@ def enter_game(snake_speed, snake_color, wallpaper):
                         end_time.append(time.time())
                         # print(i)
                         elapsed = end_time[len(end_time)-1]-start_time[0]
-
+                        elapsed =( int(elapsed *10))/10
                         print("elapsed = " + str(elapsed))
                         carriage_closer[0] = 1
                         bullet_closer[0] = 1
-                        print("ended")
                         time.sleep(2)
-                        end_screen(elapsed)
+                        end_screen(elapsed,wallpaper)
                         # loop_counter[0] = 0
                         # time.sleep(3)
 
-                        end_screen(elapsed)
+                        # end_screen(elapsed)
 
 
                     def motion(turning_right):
