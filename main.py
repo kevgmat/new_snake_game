@@ -34,6 +34,10 @@ colors = {0: (0, 0, 0), 1: (255, 0, 0), 2: (255, 255, 255), 3: (255, 255, 0),
 # 5 = blue
 # 6 = purple
 
+clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
+clean = pygame.transform.scale(clean, (620, 720))
+clean = clean.convert()
+
 def turn_locations_finder():
     i = 1
     turn_locations.clear()
@@ -56,14 +60,41 @@ def message(msg, color, width_location, height_location, size, offset):
     else:
         pass
     display.blit(mesg, (width_location, height_location))
+
+def fade_in(fade_image,previous_image, delay,i_change, i):
+    while i!= 255:
+        fade_image.set_alpha(i)
+        display.blit(previous_image,(0,0))
+        display.blit(fade_image,(0,0))
+        pygame.time.delay(delay)
+        i+=i_change
+        pygame.display.update()
     # pygame.display.update()
+
+def fade_out(fade_image, previous_image, delay, i_change, i):
+    while i != 0:
+        fade_image.set_alpha(255 - i)
+        display.blit(previous_image, (0, 0))
+        display.blit(fade_image, (0, 0))
+        pygame.time.delay(delay)
+        i -= i_change
+        pygame.display.update()
+        # flag_8[0] = 1
+
+
 def about_func():
     sub_button_intro = ("songs/sub_button.mp3")
 
+    about_fadein = pygame.image.load("wallpaper/wallpaper_about_fadein.jpg")
+    about_fadein = pygame.transform.scale(about_fadein, (620,720))
+    about_fadein = about_fadein.convert()
+    i = 0
 
-    clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
-    clean = pygame.transform.scale(clean, (620, 720))
-    clean = clean.convert()
+    fade_in(about_fadein, clean ,1,5, i)
+    # global clean
+    # clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
+    # clean = pygame.transform.scale(clean, (620, 720))
+    # clean = clean.convert()
 
     display.blit(clean,(0,0))
     pygame.display.update()
@@ -98,33 +129,36 @@ def about_func():
                     pygame.mixer.Channel(3).set_volume(1)
                     pygame.mixer.Channel(3).play(sub_button_intro_sound)
                     display.blit(clean, (0,0))
+                    i = 255
+                    fade_out(clean, about_fadein,1,5,i)
             else:
                 display.blit(back_dark, (back_x, 600))
             pygame.display.update()
 
 
-def next_func():
-
-
-    clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
-    clean = pygame.transform.scale(clean, ( 620, 720))
-    clean = clean.convert()
-
-    display.blit(clean, (0,0))
-    pygame.display.update()
-
-    back = pygame.image.load("icons/back.png")
-    back_dark = pygame.image.load("icons/back_dark.png")
-    copyright = pygame.image.load("icons/copyright.png")
-
-    back = pygame.transform.scale(back, (50, 50))
-    back_dark = pygame.transform.scale(back_dark, (50, 50))
-
-    message("this is next page", colors[2], 310,310,25, True)
-
-    pygame.display.update()
+# def next_func():
+#
+#
+#     clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
+#     clean = pygame.transform.scale(clean, ( 620, 720))
+#     clean = clean.convert()
+#
+#     display.blit(clean, (0,0))
+#     pygame.display.update()
+#
+#     back = pygame.image.load("icons/back.png")
+#     back_dark = pygame.image.load("icons/back_dark.png")
+#     copyright = pygame.image.load("icons/copyright.png")
+#
+#     back = pygame.transform.scale(back, (50, 50))
+#     back_dark = pygame.transform.scale(back_dark, (50, 50))
+#
+#     message("this is next page", colors[2], 310,310,25, True)
+#
+#     pygame.display.update()
 def intro_page():
 
+    flag_8 = [0]
 
     main_button_intro = ("songs/main_button.mp3")
     main_button_intro_sound = pygame.mixer.Sound(main_button_intro)
@@ -148,18 +182,22 @@ def intro_page():
 
     pygame.display.update()
     background = pygame.Surface((620, 720))
-    background.fill((255, 255, 255))
+    background.fill((0, 0, 0))
 
     intro_music = ("songs/intro_music.mp3")
     intro_music = pygame.mixer.Sound(intro_music)
     pygame.mixer.Channel(0).set_volume(0.2)
     pygame.mixer.Channel(0).play(intro_music)
 
-    image = pygame.image.load("wallpaper/wallpaper_clean.jpg")
-    image = pygame.transform.scale(image, (620, 720))
-    image = image.convert()
+    # clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
+    # clean = pygame.transform.scale(image, (620, 720))
+    # clean = image.convert()
 
-    rect = image.get_rect()
+    # rect = image.get_rect()
+
+    icon = pygame.image.load("icons/logo.png")
+    icon = pygame.transform.scale(icon, (200,200))
+
 
     # display.fill(0,0,0)
 
@@ -167,11 +205,21 @@ def intro_page():
     offset = 200
     done = False
 
-    display.blit(image,rect)
-    pygame.display.update()
+
+
+    # pygame.display.update()
     # time.sleep(2000)
+    initial_image = pygame.image.load("wallpaper/wallpaper_intro_fadein.jpg")
+    initial_image = pygame.transform.scale(initial_image,(620,720))
+    intitial_image = initial_image.convert()
+
+    i = 0
+    fade_in(initial_image,background, 1, 5, i)
 
 
+    display.blit(clean, (0,0))
+    display.blit(icon, (215, 230))
+    pygame.display.update()
     while not done:
         for event in pygame.event.get():
             mousepos = pygame.mouse.get_pos()
@@ -182,13 +230,56 @@ def intro_page():
             about_x = 620/2 - (1/2)*offset - icon_size/2
             next_x = 620/2 + (1/2)*offset - icon_size/2
 
+            clean_fadein = pygame.image.load("wallpaper/wallpaper_clean.jpg")
+            clean_fadein = pygame.transform.scale(clean_fadein, (620, 720))
+            clean_fadein = clean_fadein.convert()
+
             if about_x <= mousepos[0] <= about_x + 50 and 600 <= mousepos[1] <= 650:
                 display.blit(about, (about_x, 600))
                 pygame.display.update()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pygame.mixer.Channel(3).set_volume(1)
                     pygame.mixer.Channel(3).play(main_button_intro_sound)
+
+
+                    i = 255
+                    # if flag_8[0] == 0:
+                    # while i!= 0:
+                    #     print(i)
+                    #     clean_fadein.set_alpha(255-i)
+                    #     display.blit(initial_image, (0,0))
+                    #     display.blit(clean_fadein, (0,0))
+                    #     pygame.time.delay(1)
+                    #     i = i-5
+                    #     pygame.display.update()
+                    #     flag_8[0] = 1
+                    fade_out(clean_fadein, initial_image, 1, 5, i)
+
+                    # flag_8[0] = 0
+                    # while i != 255:
+                    #     for event in pygame.event.get():
+                    #         if event.type == pygame.QUIT:
+                    #             pygame.quit()
+                    #             sys.exit()
+                    #     fade_image.set_alpha(i)
+                    #     display.blit(previous_image, (0, 0))
+                    #     display.blit(fade_image, (0, 0))
+                    #     pygame.time.delay(delay)
+                    #     i += i_increment
+                    #     pygame.display.update()
+                    # i = 255
+                    # fade_image = initial_image
+                    # while i != 0:
+                    #     fade_image .set_alpha(255-i)
+                    #     display.blit(initial_image,(0,0))
+                    #     display.blit(fade_image, (0,0))
+                    #     pygame.time.delay(10)
+                    #     i -= 5
+                    #     pygame.display.update()
+
                     about_func()
+                    i = 0
+                    fade_in(initial_image, clean,1,5, i)
             else:
                 display.blit(about_dark, (about_x, 600))
                 pygame.display.update()
@@ -200,6 +291,8 @@ def intro_page():
                     pygame.mixer.Channel(3).set_volume(1)
                     pygame.mixer.Channel(3).play(next_button_intro_sound)
                     done = True
+                    i = 255
+                    fade_out(clean_fadein, initial_image, 1 ,5, i)
             else:
                 display.blit(next_dark, (next_x, 600))
                 pygame.display.update()
@@ -327,12 +420,12 @@ def else_button(x_location, y_location, box_name, text):
 
 intro_page()
 
-clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
-clean = pygame.transform.scale(clean, (620, 720))
-clean = clean.convert()
-display.blit(clean, (0,0))
-pygame.display.update()
-# time.sleep(3)
+
+main_fadein = pygame.image.load("wallpaper/wallpaper_main_fadein.jpg")
+main_fadein = pygame.transform.scale(main_fadein,(620,720))
+main_fadein = main_fadein.convert()
+i = 0
+fade_in(main_fadein,main_fadein,1,1,i)
 
 box_x = 110
 box_y = 300
