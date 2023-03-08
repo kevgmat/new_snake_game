@@ -66,6 +66,9 @@ def message(msg, color, width_location, height_location, size, offset):
     display.blit(mesg, (width_location, height_location))
     pygame.display.update()
 def about_func():
+    sub_button_intro = ("songs/sub_button.mp3")
+
+
     clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
     clean = pygame.transform.scale(clean, (620, 720))
     clean = clean.convert()
@@ -99,6 +102,9 @@ def about_func():
                 display.blit(back,(back_x, 600))
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     done = True
+                    sub_button_intro_sound = pygame.mixer.Sound(sub_button_intro)
+                    pygame.mixer.Channel(3).set_volume(1)
+                    pygame.mixer.Channel(3).play(sub_button_intro_sound)
                     display.blit(clean, (0,0))
                     # print("back")
             else:
@@ -107,6 +113,8 @@ def about_func():
 
 
 def next_func():
+
+
     clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
     clean = pygame.transform.scale(clean, ( 620, 720))
     clean = clean.convert()
@@ -125,6 +133,14 @@ def next_func():
 
     pygame.display.update()
 def intro_page():
+
+
+    main_button_intro = ("songs/main_button.mp3")
+    main_button_intro_sound = pygame.mixer.Sound(main_button_intro)
+
+    next_button_intro = ("songs/next_button.mp3")
+    next_button_intro_sound = pygame.mixer.Sound(next_button_intro)
+
     display = pygame.display.set_mode((620,720))
 
     about = pygame.image.load("icons/about.png")
@@ -142,6 +158,11 @@ def intro_page():
     pygame.display.update()
     background = pygame.Surface((620, 720))
     background.fill((255, 255, 255))
+
+    intro_music = ("songs/intro_music.mp3")
+    intro_music = pygame.mixer.Sound(intro_music)
+    pygame.mixer.Channel(0).set_volume(0.2)
+    pygame.mixer.Channel(0).play(intro_music)
 
     image = pygame.image.load("wallpaper/wallpaper_clean.jpg")
     image = pygame.transform.scale(image, (620, 720))
@@ -178,6 +199,8 @@ def intro_page():
                 # print("about")
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     # print("about")
+                    pygame.mixer.Channel(3).set_volume(1)
+                    pygame.mixer.Channel(3).play(main_button_intro_sound)
                     about_func()
             else:
                 display.blit(about_dark, (about_x, 600))
@@ -188,6 +211,8 @@ def intro_page():
                 pygame.display.update()
                 # print("next")
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    pygame.mixer.Channel(3).set_volume(1)
+                    pygame.mixer.Channel(3).play(next_button_intro_sound)
                     # print("next")
                     done = True
             else:
@@ -466,13 +491,6 @@ print(snake_color)
 print(snake_wallpaper)
 print(snake_speed)
 def enter_game(snake_speed, snake_color, wallpaper):
-    # test = pygame.image.load("icons/back.png")
-    # test = pygame.transform.scale(test, (60, 40))
-    # # test = test.convert()
-    # display.blit(test, (300, 300))
-    # pygame.display.update()
-    # time.sleep(3)
-
 
     start_time[0] = time.time()
 
@@ -529,15 +547,6 @@ def enter_game(snake_speed, snake_color, wallpaper):
         # carriage = carriage.convert()
 
         display.blit(carriage, ((carriage_pos*20-20), 640))
-        # display.blit(carriage, ())
-        #
-        # pygame.draw.rect(display, pygame.Color((255, 0, 0)), ((carriage_pos*20-20), 660, 60, 20))
-        # pygame.draw.rect(display, pygame.Color((255, 0, 0)), ((carriage_pos*20), 640, 20, 20))
-
-        # test = pygame.image.load("icons/back.png")
-        # test = pygame.transform.scale(test, (60,40))
-        # test = test.convert()
-        # display.blit(test, (300,300))
 
     def game():
 
@@ -572,31 +581,11 @@ def enter_game(snake_speed, snake_color, wallpaper):
 
                 pygame.time.Clock().tick(50)
 
-                # clean = pygame.image.load("wallpaper/wallpaper_clean.jpg")
-                # clean = pygame.transform.scale(clean, (620, 720))
-                # clean = clean.convert()
                 display.blit(clean, (0,0))
-                # print("hi")
-                # pygame.draw.rect(display, pygame.Color((0, 0, 0)), [0, 0, 620, 720])
-                #
-                # for i in range(1, 32):
-                #     pygame.draw.line(display, pygame.Color((255, 0, 0)), (0, (i * 20)), (620, (i * 20)), width=1)
-                #     pygame.draw.line(display, pygame.Color((255, 0, 0)), ((i * 20), 0), ((i * 20), 620), width=1)
-                #
-                #     pygame.draw.line(display, pygame.Color((0, 255, 0)), (0, ((i + 31) * 20)), (620, ((i + 31) * 20)),
-                #                      width=1)
-                #     pygame.draw.line(display, pygame.Color((0, 255, 0)), ((i * 20), 620), ((i * 20), 720), width=1)
 
                 for food_item in food_pos:
-                    # carriage = pygame.image.load("icons/carriage.png")
-                    # carriage = pygame.transform.scale(carriage, (60, 40))
-                    # # carriage = carriage.convert()
-                    #
-                    # display.blit(carriage, ((carriage_pos * 20 - 20), 640))
-                    # # display.blit(carriage, ())
+
                     display.blit(food, (((food_item[0])), ((food_item[1]))))
-                    # pygame.draw.rect(display, pygame.Color((0, 0, 255)),
-                    #                  [((food_item[0])), ((food_item[1])), 20, 20])
                 if carriage_x[0] >30:
                     carriage_x[0] -= 30
                 elif carriage_x[0] <0:
