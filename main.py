@@ -290,7 +290,12 @@ def else_drop_down_button(options, x_location, y_location, box_name, box_value):
     pygame.display.update()
 
 def button(x_location, y_location, box_name, text):
-    pygame.draw.rect(display, color_active, box_name)
+    # pygame.draw.rect(display, color_active, box_name)
+
+    if difficulty[0] != -1 and difficulty[0] == str(text):
+        pygame.draw.rect(display, color_inactive, box_name)
+    else:
+        pygame.draw.rect(display, color_active, box_name)
     message(str(text), colors[0], x_location + 30, y_location + 10, 24, True)
     if event.type == pygame.MOUSEBUTTONDOWN:
         if box_name.collidepoint(event.pos):
@@ -298,7 +303,11 @@ def button(x_location, y_location, box_name, text):
 
     pygame.display.update()
 def else_button(x_location, y_location, box_name, text):
-    pygame.draw.rect(display, color_inactive, box_name)
+    if difficulty[0] != -1 and difficulty[0] == str(text):
+        pygame.draw.rect(display, color_active, box_name)
+    else:
+        pygame.draw.rect(display, color_inactive, box_name)
+    # pygame.draw.rect(display, color_inactive, box_name)
     message(str(text), colors[0], x_location + 30, y_location + 10, 24, True)
     pygame.display.update()
 
