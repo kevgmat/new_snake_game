@@ -258,6 +258,9 @@ def drop_down_button(event, options, x_location,y_location, box_name, box_value)
         a = True
         w = False
         if box_name.collidepoint(event.pos):
+            main_button_sound = pygame.mixer.Sound(main_button)
+            pygame.mixer.Channel(1).set_volume(1)
+            pygame.mixer.Channel(1).play(main_button_sound)
             for i in range(int(len(options)/2)):
                 box(x_location, y_location+(40*(i+1)))
                 message(options[i + int(len(options) / 2)], colors[0],x_location+30,
@@ -277,7 +280,10 @@ def drop_down_button(event, options, x_location,y_location, box_name, box_value)
                             message(options[i + int(len(options)/2)], colors[0],x_location+30,
                                     y_location + 10 + (40 * (i + 1)), 20, True)
                             if event.type==pygame.MOUSEBUTTONDOWN:
-                                # print("pressed")
+                                # print("pressed")¸
+                                sub_button_sound = pygame.mixer.Sound(sub_button)
+                                pygame.mixer.Channel(2).set_volume(1)
+                                pygame.mixer.Channel(2).play(sub_button_sound)
                                 a = False
                                 box_value = i
                                 # print(box_value)
@@ -324,6 +330,9 @@ def button(x_location, y_location, box_name, text):
     message(str(text), colors[0], x_location + 30, y_location + 10, 24, True)
     if event.type == pygame.MOUSEBUTTONDOWN:
         if box_name.collidepoint(event.pos):
+            main_button_sound = pygame.mixer.Sound(main_button)
+            pygame.mixer.Channel(1).set_volume(1)
+            pygame.mixer.Channel(1).play(main_button_sound)
             difficulty[0] = str(text)
 
     pygame.display.update()
@@ -358,17 +367,21 @@ hard_box = pygame.Rect(box_x + 280, box_y- 80, 120, 40)
 mousepos = ()
 run = True
 
-next = pygame.image.load("icons/next.png")                                                                              # loads in the icon for next
-next_dark = pygame.image.load("icons/next_dark.png")                                                                    # loads in the icon for dark next
-next = pygame.transform.scale(next, (icon_size, icon_size))                                                             # scales the next icon size to the right size
-next_dark = pygame.transform.scale(next_dark, (icon_size, icon_size))                                                   # scales the dark next icon to the right size
+next = pygame.image.load("icons/next.png")
+next_dark = pygame.image.load("icons/next_dark.png")
+next = pygame.transform.scale(next, (icon_size, icon_size))
+next_dark = pygame.transform.scale(next_dark, (icon_size, icon_size))
 selected = 0
-# color_inactive = pygame.Color((250, 90, 90))                                                                            # setting the color light red for regular use
+# color_inactive = pygame.Color((250, 90, 90))
 # color_active = pygame.Color((255, 0, 0))
 #
 # snake_speed = -1
 # snake_color = -1
 # snake_wallpaper = -1
+
+main_button = ("songs/main_button.mp3")
+sub_button = ("songs/sub_button.mp3")
+next_button = ("songs/next_button.mp3")
 
 while run:
     for event in pygame.event.get():
@@ -377,7 +390,6 @@ while run:
         if event.type == pygame.QUIT:
             pygame.quit()
             run = False
-
 
         if box_x <= mousepos[0] <= box_x+120 and box_y - 80 <= mousepos[1] <= box_y -40:
             # print("easy")
@@ -459,6 +471,9 @@ while run:
         if event.type == pygame.MOUSEBUTTONDOWN and selected == 1:
             if 385 <= mousepos[0] <= 435 and 600 <= mousepos[1] <= 650:
                 run = False
+                pygame.mixer.music.load(next_button)
+                pygame.mixer.music.set_volume(1)
+                pygame.mixer.music.play()
 
         elif selected == 0 and pygame.MOUSEBUTTONDOWN and (
             385 <= mousepos[0] <= 435 and 600 <= mousepos[1] <= 650):
