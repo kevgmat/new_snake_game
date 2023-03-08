@@ -505,6 +505,10 @@ elif snake_wallpaper == 3:
 print(snake_color)
 print(snake_wallpaper)
 print(snake_speed)
+
+eating_apple = ("songs/eating_apple_2.mp3")
+laser = ("songs/laser_2.mp3")
+
 def enter_game(snake_speed, snake_color, wallpaper):
 
     start_time[0] = time.time()
@@ -514,7 +518,7 @@ def enter_game(snake_speed, snake_color, wallpaper):
     bullet_state =[False]
 
     i = 1
-    percentage = 10
+    percentage = 90
     while i <= int((percentage / 100) * 961):
         food_x = random.randint(0, 30)*20
         food_y = random.randint(0, 30)*20
@@ -589,6 +593,9 @@ def enter_game(snake_speed, snake_color, wallpaper):
                 elif pygame.key.get_pressed()[pygame.K_RIGHT]:
                     carriage_x[0] = carriage_x[0] + 1
                 if pygame.key.get_pressed()[pygame.K_SPACE]:
+                    laser_sound = pygame.mixer.Sound(laser)
+                    pygame.mixer.Channel(2).set_volume(0.25)
+                    pygame.mixer.Channel(2).play(laser_sound)
                     pass
                     bullet_state[0] = True
                 else:
@@ -640,6 +647,8 @@ def enter_game(snake_speed, snake_color, wallpaper):
                             bullet_y = 32
 
                         if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
+
+
                             if snake_list.index(i) == (len(snake_list)-1) :
 
                                 # print("hit", i[0], i[1])
@@ -724,6 +733,10 @@ def enter_game(snake_speed, snake_color, wallpaper):
                         # print(snake_list)
                         for j in food_pos:
                             if (x[0] == (j[0])) and (y[0] == (j[1])):
+                                eating_apple_sound = pygame.mixer.Sound(eating_apple)
+                                pygame.mixer.Channel(3).set_volume(0.4)
+                                pygame.mixer.Channel(3).play(eating_apple_sound)
+                                print("ate")
                                 length_of_snake[0] += 1
                                 food_pos.remove(j)
 
