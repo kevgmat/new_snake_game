@@ -17,7 +17,7 @@ food_pos = []
 game_over = [False]
 
 start_time = [0]
-end_time = []
+end_time = [0]
 
 
 turn_locations = []
@@ -48,23 +48,15 @@ def turn_locations_finder():
         turn_locations.append(turn_location_right)
         i += 1
 
-# print(colors[2])
 
 def message(msg, color, width_location, height_location, size, offset):
     mesg = pygame.font.SysFont("aquakana", size).render(msg, True, color)
-    # print(width_location)
-    # print(size)
-    # print(offset)
     if offset == True:
         width_location = width_location - (len(msg)/2)
-        # width_location = width_location - (len(msg)/2)*(size/3)
-        # print(len(msg))
-        # print(width_location)
-        # pygame.display.update()
     else:
         pass
     display.blit(mesg, (width_location, height_location))
-    pygame.display.update()
+    # pygame.display.update()
 def about_func():
     sub_button_intro = ("songs/sub_button.mp3")
 
@@ -106,7 +98,6 @@ def about_func():
                     pygame.mixer.Channel(3).set_volume(1)
                     pygame.mixer.Channel(3).play(sub_button_intro_sound)
                     display.blit(clean, (0,0))
-                    # print("back")
             else:
                 display.blit(back_dark, (back_x, 600))
             pygame.display.update()
@@ -187,18 +178,14 @@ def intro_page():
             if event.type == pygame.QUIT:
                 done = True
                 pygame.quit()
-            # if event.type == pygame.MOUSEBUTTONDOWN and a != 1:
-            # if event.type == pygame.KEYDOWN:
-            #     display.blit()
+
             about_x = 620/2 - (1/2)*offset - icon_size/2
             next_x = 620/2 + (1/2)*offset - icon_size/2
-            # print(next_x)
+
             if about_x <= mousepos[0] <= about_x + 50 and 600 <= mousepos[1] <= 650:
                 display.blit(about, (about_x, 600))
                 pygame.display.update()
-                # print("about")
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    # print("about")
                     pygame.mixer.Channel(3).set_volume(1)
                     pygame.mixer.Channel(3).play(main_button_intro_sound)
                     about_func()
@@ -209,11 +196,9 @@ def intro_page():
             if next_x <= mousepos[0] <= next_x + 50 and 600 <= mousepos[1] <= 650:
                 display.blit(next, (next_x, 600))
                 pygame.display.update()
-                # print("next")
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pygame.mixer.Channel(3).set_volume(1)
                     pygame.mixer.Channel(3).play(next_button_intro_sound)
-                    # print("next")
                     done = True
             else:
                 display.blit(next_dark, (next_x, 600))
@@ -223,7 +208,6 @@ def intro_page():
 color_inactive = pygame.Color((250, 90, 90))                                                                            # setting the color light red for regular use
 color_active = pygame.Color((255, 0, 0))
 
-# print("test")
 snake_speed = -1
 snake_color = -1
 snake_wallpaper = -1
@@ -241,15 +225,13 @@ def wipe():
 def drop_down_button(event, options, x_location,y_location, box_name, box_value):
     b = True
     pygame.draw.rect(display, color_active, box_name)
-    # print(box_value)
     if box_value != -1:
-        # print("hello")
         for i in range(int(len(options)/2)):
             if box_value == options[i]:
                 message(options[i + int(len(options)/2)], colors[0], x_location+30, y_location+10, 24, True)
-                # print("hi")
     else:
         message("Select", colors[0], x_location+30, y_location+10, 24,True)
+    pygame.display.update()
     sub_buttons = {}
     for i in range(int(len(options)/2)):
         sub_buttons[i] = pygame.Rect(x_location, y_location+(40*(i+1)),150,40)
@@ -265,34 +247,33 @@ def drop_down_button(event, options, x_location,y_location, box_name, box_value)
                 box(x_location, y_location+(40*(i+1)))
                 message(options[i + int(len(options) / 2)], colors[0],x_location+30,
                         y_location+10+(40*(i+1)), 20, True)
+            pygame.display.update()
             while a:
                 for event in pygame.event.get():
                     mousepos = pygame.mouse.get_pos()
-                    # print(mousepos)
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         a = False
                     for i in range(int(len(options) / 2)):
                         if (x_location <= mousepos[0] <=x_location+150 )and (
                                 (y_location + (40*(i+1)))<= mousepos[1] <= (y_location+(40*(i+2)))):
-                            # print("pressed")
                             pygame.draw.rect(display, color_active, sub_buttons[i])
                             message(options[i + int(len(options)/2)], colors[0],x_location+30,
                                     y_location + 10 + (40 * (i + 1)), 20, True)
+                            pygame.display.update()
                             if event.type==pygame.MOUSEBUTTONDOWN:
-                                # print("pressed")¸
                                 sub_button_sound = pygame.mixer.Sound(sub_button)
                                 pygame.mixer.Channel(2).set_volume(1)
                                 pygame.mixer.Channel(2).play(sub_button_sound)
                                 a = False
                                 box_value = i
-                                # print(box_value)
                                 pygame.event.clear()
                                 w = True
                         else:
                             pygame.draw.rect(display, color_inactive,sub_buttons[i])
                             message(options[i+int(len(options)/2)], colors[0], x_location+30,
                                     y_location + 10 + (40 * (i + 1)), 20, True)
+                            pygame.display.update()
 
                         if w:
                             wipe()
@@ -300,13 +281,12 @@ def drop_down_button(event, options, x_location,y_location, box_name, box_value)
                         (y_location + (40 * (i + 1))) <= mousepos[1] <= (y_location + (40 * (i + 2)))):
                         pass
                     elif event.type == pygame.MOUSEBUTTONDOWN:
-                        print("pressed outside")
+
                         wipe()
                         a = False
                         break
         else:
             b = False
-    # print("returning:", box_value)
     pygame.display.update()
     return b,box_value
 
@@ -321,7 +301,6 @@ def else_drop_down_button(options, x_location, y_location, box_name, box_value):
     pygame.display.update()
 
 def button(x_location, y_location, box_name, text):
-    # pygame.draw.rect(display, color_active, box_name)
 
     if difficulty[0] != -1 and difficulty[0] == str(text):
         pygame.draw.rect(display, color_inactive, box_name)
@@ -383,6 +362,8 @@ main_button = ("songs/main_button.mp3")
 sub_button = ("songs/sub_button.mp3")
 next_button = ("songs/next_button.mp3")
 
+loop_counter = [0]
+
 while run:
     for event in pygame.event.get():
         mousepos = pygame.mouse.get_pos()
@@ -392,12 +373,9 @@ while run:
             run = False
 
         if box_x <= mousepos[0] <= box_x+120 and box_y - 80 <= mousepos[1] <= box_y -40:
-            # print("easy")
             x_location = box_x
             y_location = box_y - 80
             button(x_location,y_location, easy_box, "Easy")
-
-
 
         else:
             x_location = box_x
@@ -405,7 +383,6 @@ while run:
             else_button(x_location,y_location, easy_box, "Easy")
 
         if box_x + 140 <= mousepos[0] <= box_x + 260 and box_y - 80 <= mousepos[1] <= box_y -40:
-            # print("medium")
             x_location = box_x + 125
             y_location = box_y - 80
             button(x_location, y_location, medium_box,"Medium")
@@ -415,7 +392,6 @@ while run:
             else_button(x_location, y_location, medium_box, "Medium")
 
         if box_x + 260 <= mousepos[0] <= box_x + 380 and box_y - 80 <= mousepos[1] <= box_y - 40:
-            # print("hard")
             x_location = box_x + 280
             y_location = box_y - 80
             button(x_location, y_location, hard_box,"Hard")
@@ -433,7 +409,6 @@ while run:
             if not returned[0]:
                 break
             snake_color = returned[1]
-            # print("snake color = ", snake_color)
             pygame.display.update()
         else:
             options = [0,1,2,"Red","Black","White"]
@@ -450,7 +425,6 @@ while run:
             if not returned[0]:
                 break
             snake_wallpaper = returned[1]
-            # print("snake wallpaper = ", snake_wallpaper)
             pygame.display.update()
         else:
             options = [0,1,2,3,"Ocean", "Mars", "Beach", "Forest"]
@@ -478,6 +452,7 @@ while run:
         elif selected == 0 and pygame.MOUSEBUTTONDOWN and (
             385 <= mousepos[0] <= 435 and 600 <= mousepos[1] <= 650):
             message("Please select all options", colors[0], 210, 665, 20, True)
+            pygame.display.update()
 
 
 if difficulty[0] == "Easy":
@@ -502,12 +477,25 @@ elif snake_wallpaper == 2:
     snake_wallpaper = "beach.jpg"
 elif snake_wallpaper == 3:
     snake_wallpaper = "forest.jpg"
-print(snake_color)
-print(snake_wallpaper)
-print(snake_speed)
 
 eating_apple = ("songs/eating_apple_2.mp3")
 laser = ("songs/laser_2.mp3")
+
+def end_screen(time_taken):
+    print("ended")
+    display.blit(clean,(0,0))
+    message("GAME OVER", colors[0], 300,300,20, False)
+    message(str(time_taken), colors[0] ,300, 350,20, False)
+    pygame.display.update()
+    time.sleep(2)
+    display.blit
+    sys.exit()
+
+
+
+
+carriage_closer = [0]
+bullet_closer = [0]
 
 def enter_game(snake_speed, snake_color, wallpaper):
 
@@ -518,7 +506,7 @@ def enter_game(snake_speed, snake_color, wallpaper):
     bullet_state =[False]
 
     i = 1
-    percentage = 90
+    percentage = 5
     while i <= int((percentage / 100) * 961):
         food_x = random.randint(0, 30)*20
         food_y = random.randint(0, 30)*20
@@ -531,7 +519,6 @@ def enter_game(snake_speed, snake_color, wallpaper):
 
 
     turn_locations_finder()
-    # print(turn_locations)
 
     def snake(snake_block_function, snake_list_function):
         for site in snake_list_function:
@@ -604,6 +591,16 @@ def enter_game(snake_speed, snake_color, wallpaper):
                 pygame.time.Clock().tick(50)
 
                 display.blit(clean, (0,0))
+                pygame.draw.rect(display,colors[0],[0,680, 620,40])
+                to_display = "time = "
+                test = (time.time()-start_time[0])*10
+                test = str(int(test)/10)
+                # print(test)
+                # to_display = "time = "+ str(end_time[len(end_time)-1]-start_time[0])
+                message(test, colors[1],10,690,20,False)
+                pygame.draw.line(display, colors[0], (0, 620), (620, 620), 1)
+
+
 
                 for food_item in food_pos:
 
@@ -617,6 +614,9 @@ def enter_game(snake_speed, snake_color, wallpaper):
 
                 snake(snake_block, snake_list)
                 # pygame.display.update()
+
+                if carriage_closer == [1]:
+                    return
         T = Thread(target=carriage, args = (snake_block, ), daemon= True)
         T.start()
 
@@ -643,7 +643,6 @@ def enter_game(snake_speed, snake_color, wallpaper):
                         bullet_spot = [carriage_x[0]*20, bullet_y*20]
 
                         if bullet_spot in food_pos:
-                            # print("hit food")
                             bullet_y = 32
 
                         if carriage_x[0]*20 == i[0] and bullet_y*20 == i[1]:
@@ -651,7 +650,6 @@ def enter_game(snake_speed, snake_color, wallpaper):
 
                             if snake_list.index(i) == (len(snake_list)-1) :
 
-                                # print("hit", i[0], i[1])
                                 bullet_y = 32
                                 removed_part = snake_list[:(snake_list.index(i) + 1)]
                                 del snake_list[:(snake_list.index(i) + 1)]
@@ -660,26 +658,27 @@ def enter_game(snake_speed, snake_color, wallpaper):
                                     food_pos.append(i)
 
                                 turn_locations_finder()
-                                # print(turn_locations)
 
                                 x[0] = -20
                                 y[0] = 0
                                 length_of_snake[0] = 1
                                 bullet_state[0] = False
+                                loop_counter[0] = -1
 
                             else:
-                                # print("hit", i[0], i[1])
                                 bullet_y = 32
                                 removed_part = snake_list[:(snake_list.index(i)+1)]
                                 del snake_list[:(snake_list.index(i) + 1)]
                                 length_of_snake[0] = len(snake_list)
-                                # print(removed_part)
+
                                 for i in removed_part:
                                     food_pos.append(i)
 
 
                 else:
                     pygame.display.update()
+                if bullet_closer[0] == 1:
+                    return
 
         T_2 = Thread(target=bullet, daemon= True)
         T_2.start()
@@ -692,27 +691,41 @@ def enter_game(snake_speed, snake_color, wallpaper):
                     game_over[0] = True
             while y[0] < 600:
 
-                for i in range(0, 31):
-
+                while loop_counter[0] <= 30:
+                # for i in range(0, 31):
+                    print(loop_counter[0])
                     flag = [False, False]
 
-                    if i%2 == 0:
+                    if loop_counter[0]%2 == 0:
                         turning_right[0] = True
                     else:
                         turning_right[0] = False
-
-                    if i == 30:
+                    loop_counter[0] += 1
+                    if loop_counter[0] == 31:
+                        # print(end_time)
+                        # if end_time[0] == 0:
+                        #     del end_time[0]
                         end_time.append(time.time())
-
+                        # print(i)
                         elapsed = end_time[len(end_time)-1]-start_time[0]
-                        print(elapsed)
+
+                        print("elapsed = " + str(elapsed))
+                        carriage_closer[0] = 1
+                        bullet_closer[0] = 1
+                        print("ended")
+                        time.sleep(2)
+                        end_screen(elapsed)
+                        # loop_counter[0] = 0
+                        # time.sleep(3)
+
+                        end_screen(elapsed)
 
 
                     def motion(turning_right):
 
                         pygame.time.Clock().tick(snake_speed)
 
-                        if x[0] == turn_locations[i] * 20:
+                        if x[0] == turn_locations[loop_counter[0]] * 20:
                             y[0] += 20
                             flag[0] = True
                             length_of_snake[0] += 1
@@ -730,13 +743,11 @@ def enter_game(snake_speed, snake_color, wallpaper):
 
                         background()
                         food_display()
-                        # print(snake_list)
                         for j in food_pos:
                             if (x[0] == (j[0])) and (y[0] == (j[1])):
                                 eating_apple_sound = pygame.mixer.Sound(eating_apple)
                                 pygame.mixer.Channel(3).set_volume(0.4)
                                 pygame.mixer.Channel(3).play(eating_apple_sound)
-                                print("ate")
                                 length_of_snake[0] += 1
                                 food_pos.remove(j)
 
@@ -744,16 +755,17 @@ def enter_game(snake_speed, snake_color, wallpaper):
                             return 0
 
 
-                    if i % 2 == 0:
-                        while x[0] <= (turn_locations[i] * 20):
+                    if loop_counter[0] % 2 == 0:
+                        while x[0] <= (turn_locations[loop_counter[0]] * 20):
                             ref = motion(True)
                             if ref == 0:
                                 break
                     else:
-                        while x[0] >= (turn_locations[i] * 20):
+                        while x[0] >= (turn_locations[loop_counter[0]] * 20):
                             ref = motion(False)
                             if ref == 0:
                                 break
+                    # loop_counter[0]+=1
     game()
 
 
